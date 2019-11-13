@@ -110,6 +110,7 @@ public class MainWindow {
 	private Image img;
 	
 	private File file;
+	private JMenuItem mntmExportWord;
 	
 	public File getFile() {
 		return file;
@@ -171,6 +172,20 @@ public class MainWindow {
 				saveFile();
 			}
 		});
+		
+		mntmExportWord = new JMenuItem("Export Word");
+		mntmExportWord.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					BiblioController.getInstance().exportBiblioAsWord();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		mnFile.add(mntmExportWord);
 		mnFile.add(mntmSave);
 		
 		this.mntmSaveAs = new JMenuItem("Save as");

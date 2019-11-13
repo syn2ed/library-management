@@ -1,10 +1,12 @@
 package org.formation.gestionbiblio.controller;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.formation.gestionbiblio.model.business.Bibliotheque;
 import org.formation.gestionbiblio.model.technical.BiblioService;
 import org.formation.gestionbiblio.model.technical.XmlParser;
+import org.formation.gestionbiblio.view.ExportBiblio;
 
 /*
  * Manager/Controller en singleton
@@ -12,7 +14,11 @@ import org.formation.gestionbiblio.model.technical.XmlParser;
 public class BiblioController {
 
 	private static BiblioController biblioControllerInstance;
-	
+	private ExportBiblio exporteurWordBiblio;
+
+	public BiblioController() {
+		this.exporteurWordBiblio = new ExportBiblio();
+	}
 	/*
 	 * Récup de l'instance du controller (singleton)
 	 */
@@ -31,6 +37,12 @@ public class BiblioController {
 	public void setBiblio(File biblioFile) throws Exception {
 		BiblioService.getInstance().setBiblio(XmlParser.unmarshal(biblioFile));
 	}
-	
+
+	/*
+	 * Méthode réalisant l'exportation du fichier word depuis l'exporteurWordBiblio
+	 */
+	public void exportBiblioAsWord() throws IOException {
+		this.exporteurWordBiblio.exportFile();
+	}
 	
 }
