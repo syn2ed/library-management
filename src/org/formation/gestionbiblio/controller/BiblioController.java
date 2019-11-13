@@ -16,15 +16,13 @@ public class BiblioController {
 	private static BiblioController biblioControllerInstance;
 	private ExportBiblio exporteurWordBiblio;
 
-	public BiblioController() {
-		this.exporteurWordBiblio = new ExportBiblio();
-	}
 	/*
 	 * Récup de l'instance du controller (singleton)
 	 */
 	public static BiblioController getInstance() {
 		if (biblioControllerInstance == null) {
 				biblioControllerInstance = new BiblioController();
+				biblioControllerInstance.exporteurWordBiblio = new ExportBiblio();
 		    }
 		    return biblioControllerInstance;
 	}
