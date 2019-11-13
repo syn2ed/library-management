@@ -61,7 +61,43 @@ import java.net.URL;
 public class MainWindow {
 
 	private JFrame frame;
+	private JMenuBar menuBar;
 	private JTable table;
+	private JMenu mnFile;
+	private JMenuItem mntmOpenFile;
+	private JMenuItem mntmSave;
+	private JMenuItem mntmSaveAs;
+	private JMenu mnAbout;
+	
+	private JScrollPane scrollPane;
+	private JPanel formulairePanel;
+	private JLabel label_6;
+	private JPanel panel_7;
+	private JLabel label_3;
+	private JPanel panel_9;
+	private JLabel label_8;
+	private JPanel panel_10;
+	private JLabel label_9;
+	private JPanel panel_11;
+	private JLabel label_10;
+	private JPanel panel_1;
+	private JLabel label_2;
+	private Object[] types;
+	private JComboBox cb_type;
+	private JPanel panel_2;
+	private JLabel label;
+	private JPanel panel_8;
+	private JLabel Presentation;
+	private JButton btnValider;
+	private JPanel panel_4;
+	private JLabel label_1;
+	private JPanel panel_personne;
+	private JLabel label_4;
+	private JLabel lblNewLabel;
+	private JPanel panel;
+	private JButton btn_add;
+	private JButton btn_suppr;
+	
 	private JTextField textField_1;
 	private JTextField tf_titre;
 	private JTextField tf_presentation;
@@ -115,13 +151,13 @@ public class MainWindow {
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		JMenuBar menuBar = new JMenuBar();
+		this.menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 		
-		JMenu mnFile = new JMenu("File");
+		mnFile = new JMenu("File");
 		menuBar.add(mnFile);
 		
-		JMenuItem mntmOpenFile = new JMenuItem("Open file");
+		this.mntmOpenFile = new JMenuItem("Open file");
 		mntmOpenFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				openFile();
@@ -129,7 +165,7 @@ public class MainWindow {
 		});
 		mnFile.add(mntmOpenFile);
 		
-		JMenuItem mntmSave = new JMenuItem("Save");
+		this.mntmSave = new JMenuItem("Save");
 		mntmSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				saveFile();
@@ -137,7 +173,7 @@ public class MainWindow {
 		});
 		mnFile.add(mntmSave);
 		
-		JMenuItem mntmSaveAs = new JMenuItem("Save as");
+		this.mntmSaveAs = new JMenuItem("Save as");
 		mntmSaveAs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				saveFileAs();
@@ -145,11 +181,11 @@ public class MainWindow {
 		});
 		mnFile.add(mntmSaveAs);
 		
-		JMenu mnAbout = new JMenu("About");
+		this.mnAbout = new JMenu("About");
 		menuBar.add(mnAbout);
 		frame.getContentPane().setLayout(null);
 		
-		JScrollPane scrollPane = new JScrollPane();
+		this.scrollPane = new JScrollPane();
 		scrollPane.setBounds(0, 0, 1440, 300);
 		frame.getContentPane().add(scrollPane);
 		
@@ -159,7 +195,7 @@ public class MainWindow {
 		
 		scrollPane.setViewportView(table);
 		
-		JPanel formulairePanel = new JPanel();
+		this.formulairePanel = new JPanel();
 		formulairePanel.setBackground(Color.LIGHT_GRAY);
 		formulairePanel.setBounds(10, 312, 804, 174);
 		frame.getContentPane().add(formulairePanel);
@@ -167,74 +203,74 @@ public class MainWindow {
 		textField_1 = new JTextField();
 		textField_1.setColumns(10);
 		
-		JLabel label_6 = new JLabel("");
+		this.label_6 = new JLabel("");
 		
-		JPanel panel_7 = new JPanel();
+		this.panel_7 = new JPanel();
 		panel_7.setBounds(5, 5, 174, 36);
 		panel_7.setBackground(Color.LIGHT_GRAY);
 		panel_7.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JLabel label_3 = new JLabel("Titre");
+		this.label_3 = new JLabel("Titre");
 		panel_7.add(label_3);
 		
 		tf_titre = new JTextField();
 		tf_titre.setColumns(10);
 		panel_7.add(tf_titre);
 		
-		JPanel panel_9 = new JPanel();
+		this.panel_9 = new JPanel();
 		panel_9.setBounds(5, 46, 197, 36);
 		panel_9.setBackground(Color.LIGHT_GRAY);
 		panel_9.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JLabel label_8 = new JLabel("Parution");
+		this.label_8 = new JLabel("Parution");
 		panel_9.add(label_8);
 		
 		tf_parution = new JTextField();
 		tf_parution.setColumns(10);
 		panel_9.add(tf_parution);
 		
-		JPanel panel_10 = new JPanel();
+		this.panel_10 = new JPanel();
 		panel_10.setBounds(5, 87, 197, 36);
 		panel_10.setBackground(Color.LIGHT_GRAY);
 		panel_10.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JLabel label_9 = new JLabel("Colonne");
+		this.label_9 = new JLabel("Colonne");
 		panel_10.add(label_9);
 		
 		tf_colonne = new JTextField();
 		tf_colonne.setColumns(10);
 		panel_10.add(tf_colonne);
 		
-		JPanel panel_11 = new JPanel();
+		this.panel_11 = new JPanel();
 		panel_11.setBounds(207, 87, 190, 36);
 		panel_11.setBackground(Color.LIGHT_GRAY);
 		panel_11.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JLabel label_10 = new JLabel("Rangee");
+		this.label_10 = new JLabel("Rangee");
 		panel_11.add(label_10);
 		
 		tf_rangee = new JTextField();
 		tf_rangee.setColumns(10);
 		panel_11.add(tf_rangee);
 		
-		JPanel panel_1 = new JPanel();
+		this.panel_1 = new JPanel();
 		panel_1.setBounds(5, 128, 197, 46);
 		panel_1.setBackground(Color.LIGHT_GRAY);
 		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JLabel label_2 = new JLabel("Type");
+		this.label_2 = new JLabel("Type");
 		panel_1.add(label_2);
 		
-		Object[] types = new Object[]{"Acquis", "Emprunte", "Prete"};
-		JComboBox cb_type = new JComboBox(types);
+		this.types = new Object[]{"Acquis", "Emprunte", "Prete"};
+		this.cb_type = new JComboBox(types);
 		panel_1.add(cb_type);
 		
-		JPanel panel_2 = new JPanel();
+		this.panel_2 = new JPanel();
 		panel_2.setBounds(184, 5, 187, 36);
 		panel_2.setBackground(Color.LIGHT_GRAY);
 		panel_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JLabel label = new JLabel("Auteur");
+		this.label = new JLabel("Auteur");
 		panel_2.add(label);
 		
 		tf_auteur = new JTextField();
@@ -245,12 +281,12 @@ public class MainWindow {
 		formulairePanel.add(panel_2);
 		formulairePanel.add(panel_9);
 		
-		JPanel panel_8 = new JPanel();
+		this.panel_8 = new JPanel();
 		panel_8.setBounds(207, 46, 223, 36);
 		panel_8.setBackground(Color.LIGHT_GRAY);
 		panel_8.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JLabel Presentation = new JLabel("Presentation");
+		this.Presentation = new JLabel("Presentation");
 		panel_8.add(Presentation);
 		
 		tf_presentation = new JTextField();
@@ -261,192 +297,60 @@ public class MainWindow {
 		formulairePanel.add(panel_11);
 		formulairePanel.add(panel_1);
 		
-		JButton btnValider = new JButton("Valider");
+		this.btnValider = new JButton("Valider");
 		btnValider.setBounds(711, 145, 87, 29);
 		formulairePanel.add(btnValider);
 		
-		JPanel panel_4 = new JPanel();
+		this.panel_4 = new JPanel();
 		panel_4.setBackground(Color.LIGHT_GRAY);
 		panel_4.setBounds(474, 5, 215, 36);
 		formulairePanel.add(panel_4);
 		panel_4.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JLabel label_1 = new JLabel("Image URL");
+		this.label_1 = new JLabel("Image URL");
 		panel_4.add(label_1);
 		
 		tf_imgUrl = new JTextField();
 		tf_imgUrl.setColumns(10);
 		panel_4.add(tf_imgUrl);
 		
-		JPanel panel_personne = new JPanel();
+		this.panel_personne = new JPanel();
 		panel_personne.setBounds(207, 132, 202, 36);
 		formulairePanel.add(panel_personne);
 		panel_personne.setBackground(Color.LIGHT_GRAY);
 		panel_personne.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JLabel label_4 = new JLabel("Personne");
+		this.label_4 = new JLabel("Personne");
 		panel_personne.add(label_4);
 		
 		tf_personne = new JTextField();
 		tf_personne.setColumns(10);
 		panel_personne.add(tf_personne);
 		
-		JLabel lblNewLabel = new JLabel();
+		this.lblNewLabel = new JLabel();
 		lblNewLabel.setBackground(Color.ORANGE);
 		lblNewLabel.setBounds(474, 53, 215, 115);
 		formulairePanel.add(lblNewLabel);
 		
-		JPanel panel = new JPanel();
+		this.panel = new JPanel();
 		panel.setBackground(Color.LIGHT_GRAY);
 		panel.setBounds(849, 312, 95, 171);
 		frame.getContentPane().add(panel);
 		
-		JButton btn_add = new JButton("+");
+		this.btn_add = new JButton("+");
 		panel.add(btn_add);
 		
-		JButton btn_suppr = new JButton("-");
+		this.btn_suppr = new JButton("-");
 		panel.add(btn_suppr);
 		
 		/*
-		 * EventListeners
+		 * Mise en place de tous les EventListeners
 		 */
-		
-		// EventListener sur le tableau pour la récupération des valeurs de la ligne sélectionnée pour le formulaire
-		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-	        public void valueChanged(ListSelectionEvent event) {
-	        	if (table.getSelectedRow() > -1) {
-                    tf_titre.setText(table.getValueAt(table.getSelectedRow(), 0).toString());
-                    tf_auteur.setText(table.getValueAt(table.getSelectedRow(), 1).toString());
-                    tf_presentation.setText(table.getValueAt(table.getSelectedRow(), 2).toString());
-                    tf_parution.setText(table.getValueAt(table.getSelectedRow(), 3).toString());
-                    tf_colonne.setText(table.getValueAt(table.getSelectedRow(), 4).toString());
-                    tf_rangee.setText(table.getValueAt(table.getSelectedRow(), 5).toString());
-                    tf_imgUrl.setText(BiblioService.getInstance().getBiblio().getLivre().get(table.getSelectedRow()).getImgUrl());
-                    cb_type.setSelectedItem(BiblioService.getInstance().getBiblio().getLivre().get(table.getSelectedRow()).getType());
-                    
-                    if(cb_type.getSelectedItem().toString().matches("Prete|Emprunte"))
-                    	tf_personne.setText(table.getValueAt(table.getSelectedRow(), 8).toString());
-                    
-                    /* Récupération de l'image */
-                    if(BiblioService.getInstance().getBiblio().getLivre().get(table.getSelectedRow()).getImgUrl() != null) {
-                    	URL url = null;
-                    	
-                    	if(!BiblioService.getInstance().getBiblio().getLivre().get(table.getSelectedRow()).getImgUrl().isEmpty()) {
-                    		try {
-    							url = new URL(BiblioService.getInstance().getBiblio().getLivre().get(table.getSelectedRow()).getImgUrl());
-    						} catch (MalformedURLException e) {
-    							System.out.println("URL INCORRECTE");
-    							e.printStackTrace();
-    						}
-                        	try {
-    							img = ImageIO.read(url);
-    						} catch (IOException e) {
-    							// TODO Auto-generated catch block
-    							e.printStackTrace();
-    						}
-                        	
-                        	lblNewLabel.removeAll();
-                        	lblNewLabel.setIcon(new ImageIcon(img.getScaledInstance(200, 200, Image.SCALE_DEFAULT)));
-                        	
-                    	}
-                    	else {
-                    		lblNewLabel.removeAll();
-                    	}
-                        
-                        	//refresh pour récupérer nouvelle image
-                        	//frame.repaint();
-                    	
-                    }
-                }
-	        }
-	    });
-		
-		// EventListener sur le type du livre afin d'afficher ou non le champ "personne"
-		cb_type.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	//System.out.println(livreType);
-            	if(cb_type.getSelectedItem().toString().matches("Prete|Emprunte"))
-            		panel_personne.setVisible(true);
-            	else
-            		panel_personne.setVisible(false);
-            }
-        });
-		
-		// EventListener sur le bouton valider pour mettre à jour les valeurs du tableau depuis le form
-					btnValider.addActionListener(new ActionListener(){
-						public void actionPerformed(ActionEvent e) {
-								table.setValueAt(tf_titre.getText(),table.getSelectedRow(), 0);
-								table.setValueAt(tf_auteur.getText().toString(),table.getSelectedRow(), 1);
-								table.setValueAt(tf_presentation.getText(),table.getSelectedRow(), 2);
-								table.setValueAt(tf_parution.getText().toString(),table.getSelectedRow(), 3);
-								table.setValueAt(tf_colonne.getText(),table.getSelectedRow(), 4);
-								table.setValueAt(tf_rangee.getText().toString(),table.getSelectedRow(), 5);
-								BiblioService.getInstance().getBiblio().setValueAt(tf_imgUrl.getText().toString(),table.getSelectedRow(), 6);
-								if(cb_type.getSelectedItem() != null)
-									BiblioService.getInstance().getBiblio().setValueAt(cb_type.getSelectedItem().toString(), table.getSelectedRow(), 7);
-								BiblioService.getInstance().getBiblio().setValueAt(tf_personne.getText(), table.getSelectedRow(), 8);
-								
-								/* 
-								 * Refresh des champs du formulaire
-								 */
-								tf_titre.setText("");
-								tf_auteur.setText("");
-								tf_presentation.setText("");
-								tf_parution.setText("");
-								tf_colonne.setText("");
-								tf_rangee.setText("");
-								tf_imgUrl.setText("");
-								lblNewLabel.removeAll();
-								tf_personne.setText("");
-								cb_type.setSelectedItem("Acquis");
-								
-								BiblioService.getInstance().getBiblio().fireTableDataChanged();
-							}
-	
-						});
+		this.setRowsEventListener();
+		this.setTypeLivreEventListener();
+		this.setValiderBtnEventListener();
+		this.setAddSuppBtnsEventListeners();		
 					
-					btn_suppr.addActionListener(new ActionListener(){
-
-			            @Override
-			            public void actionPerformed(ActionEvent e) {
-			            	
-			                // add row to the model
-			                BiblioService.getInstance().getBiblio().removeRow(table.getSelectedRow());
-			                BiblioService.getInstance().getBiblio().fireTableDataChanged();
-			            }
-			        });
-					
-					// button add row
-			        btn_add.addActionListener(new ActionListener(){
-
-			            @Override
-			            public void actionPerformed(ActionEvent e) {
-			            	if(tf_titre.getText().length() == 0)
-			            	{
-			            		JOptionPane.showMessageDialog(null, "Veuillez entrer des valeurs dans les champs avant d'insérer un livre");
-			                	return;
-			            	}
-			            	
-			                // add row to the model
-			            	Auteur newAuteur = new Auteur();
-			            	newAuteur.setNom(tf_auteur.getText());
-			            	
-			            	Livre newLivre = new Livre();
-			            	newLivre.setTitre(tf_titre.getText());
-			            	newLivre.setAuteur(newAuteur);
-			            	newLivre.setPresentation(tf_presentation.getText());
-			            	newLivre.setParution(Integer.parseInt(tf_parution.getText()));
-			            	newLivre.setColonne(Short.parseShort(tf_colonne.getText()));
-			            	newLivre.setRangee(Short.parseShort(tf_rangee.getText()));
-			            	newLivre.setImgUrl(tf_imgUrl.getText());
-			            	newLivre.setPersonnePret(tf_personne.getText());
-			            	newLivre.setType(cb_type.getSelectedItem().toString());
-			            	
-			            	BiblioService.getInstance().getBiblio().getLivre().add(newLivre);
-			            	BiblioService.getInstance().getBiblio().fireTableDataChanged();
-			            }
-			        });
 	}
 	
 	/*
@@ -469,6 +373,155 @@ public class MainWindow {
 				e.printStackTrace();
 			}
         }
+    }
+    
+    /*
+     * EventListener sur le bouton valider pour mettre à jour les valeurs du tableau depuis le form
+     */
+    private void setValiderBtnEventListener() {
+    	btnValider.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+					table.setValueAt(tf_titre.getText(),table.getSelectedRow(), 0);
+					table.setValueAt(tf_auteur.getText().toString(),table.getSelectedRow(), 1);
+					table.setValueAt(tf_presentation.getText(),table.getSelectedRow(), 2);
+					table.setValueAt(tf_parution.getText().toString(),table.getSelectedRow(), 3);
+					table.setValueAt(tf_colonne.getText(),table.getSelectedRow(), 4);
+					table.setValueAt(tf_rangee.getText().toString(),table.getSelectedRow(), 5);
+					BiblioService.getInstance().getBiblio().setValueAt(tf_imgUrl.getText().toString(),table.getSelectedRow(), 6);
+					if(cb_type.getSelectedItem() != null)
+						BiblioService.getInstance().getBiblio().setValueAt(cb_type.getSelectedItem().toString(), table.getSelectedRow(), 7);
+					BiblioService.getInstance().getBiblio().setValueAt(tf_personne.getText(), table.getSelectedRow(), 8);
+					
+					/* 
+					 * Refresh des champs du formulaire
+					 */
+					tf_titre.setText("");
+					tf_auteur.setText("");
+					tf_presentation.setText("");
+					tf_parution.setText("");
+					tf_colonne.setText("");
+					tf_rangee.setText("");
+					tf_imgUrl.setText("");
+					lblNewLabel.removeAll();
+					tf_personne.setText("");
+					cb_type.setSelectedItem("Acquis");
+					
+					BiblioService.getInstance().getBiblio().fireTableDataChanged();
+				}
+
+			});
+    }
+    
+    /*
+     * EventListener sur le type du livre afin d'afficher ou non le champ "personne"
+     */
+    private void setTypeLivreEventListener() {
+    	cb_type.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	//System.out.println(livreType);
+            	if(cb_type.getSelectedItem().toString().matches("Prete|Emprunte"))
+            		panel_personne.setVisible(true);
+            	else
+            		panel_personne.setVisible(false);
+            }
+        });
+    }
+    
+ // EventListener sur le tableau pour la récupération des valeurs de la ligne sélectionnée pour le formulaire
+    private void setRowsEventListener() {
+    			table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+    		        public void valueChanged(ListSelectionEvent event) {
+    		        	if (table.getSelectedRow() > -1) {
+    	                    tf_titre.setText(table.getValueAt(table.getSelectedRow(), 0).toString());
+    	                    tf_auteur.setText(table.getValueAt(table.getSelectedRow(), 1).toString());
+    	                    tf_presentation.setText(table.getValueAt(table.getSelectedRow(), 2).toString());
+    	                    tf_parution.setText(table.getValueAt(table.getSelectedRow(), 3).toString());
+    	                    tf_colonne.setText(table.getValueAt(table.getSelectedRow(), 4).toString());
+    	                    tf_rangee.setText(table.getValueAt(table.getSelectedRow(), 5).toString());
+    	                    tf_imgUrl.setText(BiblioService.getInstance().getBiblio().getLivre().get(table.getSelectedRow()).getImgUrl());
+    	                    cb_type.setSelectedItem(BiblioService.getInstance().getBiblio().getLivre().get(table.getSelectedRow()).getType());
+    	                    
+    	                    if(cb_type.getSelectedItem().toString().matches("Prete|Emprunte"))
+    	                    	tf_personne.setText(table.getValueAt(table.getSelectedRow(), 8).toString());
+    	                    
+    	                    /* Récupération de l'image */
+    	                    if(BiblioService.getInstance().getBiblio().getLivre().get(table.getSelectedRow()).getImgUrl() != null) {
+    	                    	URL url = null;
+    	                    	
+    	                    	if(!BiblioService.getInstance().getBiblio().getLivre().get(table.getSelectedRow()).getImgUrl().isEmpty()) {
+    	                    		try {
+    	    							url = new URL(BiblioService.getInstance().getBiblio().getLivre().get(table.getSelectedRow()).getImgUrl());
+    	    						} catch (MalformedURLException e) {
+    	    							System.out.println("URL INCORRECTE");
+    	    							e.printStackTrace();
+    	    						}
+    	                        	try {
+    	    							img = ImageIO.read(url);
+    	    						} catch (IOException e) {
+    	    							// TODO Auto-generated catch block
+    	    							e.printStackTrace();
+    	    						}
+    	                        	
+    	                        	lblNewLabel.removeAll();
+    	                        	lblNewLabel.setIcon(new ImageIcon(img.getScaledInstance(200, 200, Image.SCALE_DEFAULT)));
+    	                        	
+    	                    	}
+    	                    	else {
+    	                    		lblNewLabel.removeAll();
+    	                    	}
+    	                        
+    	                        	//refresh pour récupérer nouvelle image
+    	                        	//frame.repaint();
+    	                    	
+    	                    }
+    	                }
+    		        }
+    		    });
+    }
+    
+    private void setAddSuppBtnsEventListeners() {
+    	btn_suppr.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	
+                // add row to the model
+                BiblioService.getInstance().getBiblio().removeRow(table.getSelectedRow());
+                BiblioService.getInstance().getBiblio().fireTableDataChanged();
+            }
+        });
+		
+		// button add row
+        btn_add.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	if(tf_titre.getText().length() == 0)
+            	{
+            		JOptionPane.showMessageDialog(null, "Veuillez entrer des valeurs dans les champs avant d'insérer un livre");
+                	return;
+            	}
+            	
+                // add row to the model
+            	Auteur newAuteur = new Auteur();
+            	newAuteur.setNom(tf_auteur.getText());
+            	
+            	Livre newLivre = new Livre();
+            	newLivre.setTitre(tf_titre.getText());
+            	newLivre.setAuteur(newAuteur);
+            	newLivre.setPresentation(tf_presentation.getText());
+            	newLivre.setParution(Integer.parseInt(tf_parution.getText()));
+            	newLivre.setColonne(Short.parseShort(tf_colonne.getText()));
+            	newLivre.setRangee(Short.parseShort(tf_rangee.getText()));
+            	newLivre.setImgUrl(tf_imgUrl.getText());
+            	newLivre.setPersonnePret(tf_personne.getText());
+            	newLivre.setType(cb_type.getSelectedItem().toString());
+            	
+            	BiblioService.getInstance().getBiblio().getLivre().add(newLivre);
+            	BiblioService.getInstance().getBiblio().fireTableDataChanged();
+            }
+        });
     }
     
     /*
