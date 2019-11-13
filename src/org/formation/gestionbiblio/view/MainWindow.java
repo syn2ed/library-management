@@ -9,6 +9,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
 
@@ -25,6 +26,7 @@ import javax.swing.JMenu;
 import javax.swing.JTable;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.JScrollPane;
@@ -206,7 +208,17 @@ public class MainWindow {
 		frame.getContentPane().add(scrollPane);
 		
 		table = new JTable(BiblioService.getInstance().getBiblio());
-		//table.column
+		
+		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+		    @Override
+		    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+		        final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+		        c.setBackground(row % 2 == 0 ? Color.LIGHT_GRAY : Color.GREEN);
+		        return this;
+		    }
+		});
+		
+		
 		table.setForeground(Color.DARK_GRAY);
 		table.setBackground(new Color(230, 230, 250));
 		
