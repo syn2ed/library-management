@@ -60,6 +60,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Calendar;
 
 public class MainWindow {
 
@@ -410,6 +411,7 @@ public class MainWindow {
     private void setValiderBtnEventListener() {
     	btnValider.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
+				if(isFormValid()) {
 					table.setValueAt(tf_titre.getText(),table.getSelectedRow(), 0);
 					table.setValueAt(tf_auteur.getText().toString(),table.getSelectedRow(), 1);
 					table.setValueAt(tf_presentation.getText(),table.getSelectedRow(), 2);
@@ -437,8 +439,70 @@ public class MainWindow {
 					
 					BiblioService.getInstance().getBiblio().fireTableDataChanged();
 				}
+					
+			}
 
-			});
+		});
+    }
+    
+    /*
+     * Retourne vrai si les champs du formulaire (rangee, colonne, parution) respectent les critèrent d'acceptance
+     */
+    private boolean isFormValid() {
+    	if(isColonneValid() && isRangeeValid() && isParutionValid())
+    		return true;
+    	return false;
+    }
+    
+    /*
+     * Retourne vrai si le champ colonne respecte le critère d'acceptance
+     */
+    private boolean isColonneValid() {
+    	try {
+    		int colonne = Integer.parseInt(this.tf_colonne.getText());
+    		if(colonne < 8 && colonne >= 0)
+    			return true;
+    		else
+    			JOptionPane.showMessageDialog(null, "Le champ colonnes doit contenir un chiffre de 0 à 7");
+    		return false;
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Le champ colonnes doit contenir un chiffre de 0 à 7");
+			return false;
+		}
+    }
+    
+    /*
+     * retourne vrai si le champ rangee respecte le critère d'acceptance
+     */
+    private boolean isRangeeValid() {
+    	try {
+    		int rangee = Integer.parseInt(this.tf_rangee.getText());
+    		if(rangee < 6 && rangee >= 0)
+    			return true;
+    		else
+    			JOptionPane.showMessageDialog(null, "Le champ rangee doit contenir un chiffre de 0 à 7");
+    		return false;
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Le champ rangee doit contenir un chiffre de 0 à 7");
+			return false;
+		}
+    }
+    
+    /*
+     * retourne vrai si le champ parution respecte le critère d'acceptance
+     */
+    private boolean isParutionValid() {
+    	try {
+    		int parution = Integer.parseInt(this.tf_parution.getText());
+    		if(parution <= Calendar.getInstance().get(Calendar.YEAR) && parution >= 0)
+    			return true;
+    		else
+    			JOptionPane.showMessageDialog(null, "Le champ parution doit être une année comprise entre 0 et " + Calendar.getInstance().get(Calendar.YEAR));
+    		return false;
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Le champ parution doit être une année comprise entre 0 et " + Calendar.getInstance().get(Calendar.YEAR));
+			return false;
+		}
     }
     
     /*
