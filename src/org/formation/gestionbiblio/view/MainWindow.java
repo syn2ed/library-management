@@ -56,6 +56,7 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -115,6 +116,8 @@ public class MainWindow {
 	
 	private File file;
 	private JMenuItem mntmExportWord;
+	private JMenuItem mntmExit;
+	private JMenuItem mntmInfo;
 	
 	public File getFile() {
 		return file;
@@ -200,8 +203,24 @@ public class MainWindow {
 		});
 		mnFile.add(mntmSaveAs);
 		
+		mntmExit = new JMenuItem("Exit");
+		mntmExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING)); // fermeture de la fenêtre 
+			}
+		});
+		mnFile.add(mntmExit);
+		
 		this.mnAbout = new JMenu("About");
 		menuBar.add(mnAbout);
+		
+		mntmInfo = new JMenuItem("Info");
+		mntmInfo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Application de gestion de bibliothèque réalisée par Rémi, Mehdi & Ayoub");
+			}
+		});
+		mnAbout.add(mntmInfo);
 		frame.getContentPane().setLayout(null);
 		
 		this.scrollPane = new JScrollPane();
