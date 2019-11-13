@@ -8,6 +8,8 @@
 *.ear
 *.nar
 hs_err_pid*
+lib/
+.classpath
 
 ##############################
 ## Maven
@@ -50,7 +52,6 @@ out/
 bin/
 tmp/
 .metadata
-.classpath
 .project
 *.tmp
 *.bak
