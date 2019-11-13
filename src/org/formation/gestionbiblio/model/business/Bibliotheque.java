@@ -9,10 +9,16 @@
 package org.formation.gestionbiblio.model.business;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.List;
 
+import javax.swing.ListSelectionModel;
+import javax.swing.event.TableColumnModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -74,34 +80,33 @@ import javax.xml.bind.annotation.XmlType;
     "livre"
 })
 @XmlRootElement(name = "bibliotheque")
-public class Bibliotheque extends DefaultTableModel{
+public class Bibliotheque extends AbstractTableModel{
 
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = -261601011942104965L;
 	
+	//Propriété non utilisée dans le XML/XSD
+	@XmlTransient
+	private final String[] columnsName = {
+			"Titre",
+	    	"Auteur",
+	    	"Presentation",
+	    	"Parution",
+	    	"Colonne",
+	    	"Rangee",
+	    	"UrlImg",
+	    	"Type",
+	    	"PersonnePret"
+	};
+	
 	@XmlElement(required = true)
     protected List<Bibliotheque.Livre> livre;
-    
-    /*
-     * Liste des colonnes
-     */
-    public static enum columns {
-    	Titre,
-    	Auteur,
-    	Presentation,
-    	Parution,
-    	Colonne,
-    	Rangee,
-    	UrlImg,
-    	Type,
-    	PersonnePret
-    }
-    
+   
     public Bibliotheque() {
     	super();
-    	this.setColumnIdentifiers(Bibliotheque.columns.values());
+    	//this.setColumnIdentifiers(Bibliotheque.columns.values());
     }
     
 
@@ -442,13 +447,12 @@ public class Bibliotheque extends DefaultTableModel{
 		return this.getLivre().toArray().length;
 	}
 
-
 	/*
 	 * Retourne le nombre de colonnes du tableau presentant les livres de la biblio
 	 */
 	@Override
 	public int getColumnCount() {
-		return Bibliotheque.columns.values().length;
+		return this.columnsName.length;
 	}
 
 	/*
@@ -474,6 +478,9 @@ public class Bibliotheque extends DefaultTableModel{
         return value;
 	}
 	
+	/*
+	 * Insértion d'une valeur dans une cellule définie par son num de ligne et colonne
+	 */
 	@Override
 	public void setValueAt(Object valuee, int rowIndex, int columnIndex) {
 		Livre livre = this.livre.get(rowIndex);
@@ -491,6 +498,17 @@ public class Bibliotheque extends DefaultTableModel{
         }
 	}
 	
+	/*
+	 * Retourne le nom de la colonne dont l'index/cursuer/numéro est passé en paramètre
+	 */
+	@Override
+    public String getColumnName(int index) {
+        return Arrays.asList(this.columnsName).get(index);
+    }
+	
+	/*
+	 * Retire la ligne/enregistrement dont le numéro est passé en paramètre
+	 */
 	public void removeRow(int rowNumber) {
 		this.getLivre().remove(rowNumber);
 	}

@@ -10,6 +10,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumnModel;
 
 import org.formation.gestionbiblio.controller.BiblioController;
 import org.formation.gestionbiblio.model.business.Bibliotheque;
@@ -205,7 +206,8 @@ public class MainWindow {
 		frame.getContentPane().add(scrollPane);
 		
 		table = new JTable(BiblioService.getInstance().getBiblio());
-		table.setForeground(new Color(0, 128, 128));
+		//table.column
+		table.setForeground(Color.DARK_GRAY);
 		table.setBackground(new Color(230, 230, 250));
 		
 		scrollPane.setViewportView(table);
@@ -437,8 +439,11 @@ public class MainWindow {
             	//System.out.println(livreType);
             	if(cb_type.getSelectedItem().toString().matches("Prete|Emprunte"))
             		panel_personne.setVisible(true);
-            	else
+            	else {
             		panel_personne.setVisible(false);
+            		tf_personne.setText("");
+            	}
+            		
             }
         });
     }
