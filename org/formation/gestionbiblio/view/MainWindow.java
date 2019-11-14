@@ -39,7 +39,6 @@ import javax.swing.BoxLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 
-import net.miginfocom.swing.MigLayout;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -131,6 +130,7 @@ public class MainWindow {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		System.out.println("JENKINSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
 		ImageIO.setUseCache(false);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -233,7 +233,7 @@ public class MainWindow {
 		    @Override
 		    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 		        final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-		        c.setBackground(row % 2 == 0 ? Color.LIGHT_GRAY : Color.GREEN);
+		        c.setBackground(row % 2 == 0 ? Color.LIGHT_GRAY : Color.getHSBColor(116, 123, 130));
 		        return this;
 		    }
 		});
