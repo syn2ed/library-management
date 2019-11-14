@@ -154,7 +154,7 @@ public class ExportBiblio {
 	      
 	      	document.write(out);
 	      	out.close();
-	      	document.close();
+	      	//document.close();
 	      	System.out.println("DOCUMENT CREE");
         }
     	catch(IOException e)
