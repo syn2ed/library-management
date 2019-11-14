@@ -9,7 +9,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumnModel;
 
 import org.formation.gestionbiblio.controller.BiblioController;
 import org.formation.gestionbiblio.model.business.Bibliotheque;
@@ -24,6 +26,7 @@ import javax.swing.JMenu;
 import javax.swing.JTable;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.JScrollPane;
@@ -36,7 +39,6 @@ import javax.swing.BoxLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 
-import net.miginfocom.swing.MigLayout;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -53,10 +55,12 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Calendar;
 
 public class MainWindow {
 
@@ -111,6 +115,8 @@ public class MainWindow {
 	
 	private File file;
 	private JMenuItem mntmExportWord;
+	private JMenuItem mntmExit;
+	private JMenuItem mntmInfo;
 	
 	public File getFile() {
 		return file;
@@ -124,6 +130,7 @@ public class MainWindow {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		System.out.println("JENKINSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
 		ImageIO.setUseCache(false);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -196,8 +203,24 @@ public class MainWindow {
 		});
 		mnFile.add(mntmSaveAs);
 		
+		mntmExit = new JMenuItem("Exit");
+		mntmExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING)); // fermeture de la fenêtre 
+			}
+		});
+		mnFile.add(mntmExit);
+		
 		this.mnAbout = new JMenu("About");
 		menuBar.add(mnAbout);
+		
+		mntmInfo = new JMenuItem("Info");
+		mntmInfo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Application de gestion de bibliothèque réalisée par Rémi, Mehdi & Ayoub");
+			}
+		});
+		mnAbout.add(mntmInfo);
 		frame.getContentPane().setLayout(null);
 		
 		this.scrollPane = new JScrollPane();
@@ -205,7 +228,18 @@ public class MainWindow {
 		frame.getContentPane().add(scrollPane);
 		
 		table = new JTable(BiblioService.getInstance().getBiblio());
-		table.setForeground(new Color(0, 128, 128));
+		
+		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+		    @Override
+		    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+		        final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+		        c.setBackground(row % 2 == 0 ? Color.LIGHT_GRAY : Color.getHSBColor(116, 123, 130));
+		        return this;
+		    }
+		});
+		
+		
+		table.setForeground(Color.DARK_GRAY);
 		table.setBackground(new Color(230, 230, 250));
 		
 		scrollPane.setViewportView(table);
@@ -396,6 +430,7 @@ public class MainWindow {
     private void setValiderBtnEventListener() {
     	btnValider.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
+				if(isFormValid()) {
 					table.setValueAt(tf_titre.getText(),table.getSelectedRow(), 0);
 					table.setValueAt(tf_auteur.getText().toString(),table.getSelectedRow(), 1);
 					table.setValueAt(tf_presentation.getText(),table.getSelectedRow(), 2);
@@ -423,8 +458,70 @@ public class MainWindow {
 					
 					BiblioService.getInstance().getBiblio().fireTableDataChanged();
 				}
+					
+			}
 
-			});
+		});
+    }
+    
+    /*
+     * Retourne vrai si les champs du formulaire (rangee, colonne, parution) respectent les critèrent d'acceptance
+     */
+    private boolean isFormValid() {
+    	if(isColonneValid() && isRangeeValid() && isParutionValid())
+    		return true;
+    	return false;
+    }
+    
+    /*
+     * Retourne vrai si le champ colonne respecte le critère d'acceptance
+     */
+    private boolean isColonneValid() {
+    	try {
+    		int colonne = Integer.parseInt(this.tf_colonne.getText());
+    		if(colonne < 8 && colonne >= 0)
+    			return true;
+    		else
+    			JOptionPane.showMessageDialog(null, "Le champ colonnes doit contenir un chiffre de 0 à 7");
+    		return false;
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Le champ colonnes doit contenir un chiffre de 0 à 7");
+			return false;
+		}
+    }
+    
+    /*
+     * retourne vrai si le champ rangee respecte le critère d'acceptance
+     */
+    private boolean isRangeeValid() {
+    	try {
+    		int rangee = Integer.parseInt(this.tf_rangee.getText());
+    		if(rangee < 6 && rangee >= 0)
+    			return true;
+    		else
+    			JOptionPane.showMessageDialog(null, "Le champ rangee doit contenir un chiffre de 0 à 7");
+    		return false;
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Le champ rangee doit contenir un chiffre de 0 à 7");
+			return false;
+		}
+    }
+    
+    /*
+     * retourne vrai si le champ parution respecte le critère d'acceptance
+     */
+    private boolean isParutionValid() {
+    	try {
+    		int parution = Integer.parseInt(this.tf_parution.getText());
+    		if(parution <= Calendar.getInstance().get(Calendar.YEAR) && parution >= 0)
+    			return true;
+    		else
+    			JOptionPane.showMessageDialog(null, "Le champ parution doit être une année comprise entre 0 et " + Calendar.getInstance().get(Calendar.YEAR));
+    		return false;
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Le champ parution doit être une année comprise entre 0 et " + Calendar.getInstance().get(Calendar.YEAR));
+			return false;
+		}
     }
     
     /*
@@ -437,8 +534,11 @@ public class MainWindow {
             	//System.out.println(livreType);
             	if(cb_type.getSelectedItem().toString().matches("Prete|Emprunte"))
             		panel_personne.setVisible(true);
-            	else
+            	else {
             		panel_personne.setVisible(false);
+            		tf_personne.setText("");
+            	}
+            		
             }
         });
     }
