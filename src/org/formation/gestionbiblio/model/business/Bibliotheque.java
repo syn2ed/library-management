@@ -108,7 +108,6 @@ public class Bibliotheque extends AbstractTableModel{
     	super();
     	//this.setColumnIdentifiers(Bibliotheque.columns.values());
     }
-    
 
     /**
      * Gets the value of the livre property.
@@ -222,7 +221,7 @@ public class Bibliotheque extends AbstractTableModel{
         }
 
         /**
-         * D�finit la valeur de la propri�t� titre.
+         * D�finit la valeur de la propriete titre.
          * 
          * @param value
          *     allowed object is

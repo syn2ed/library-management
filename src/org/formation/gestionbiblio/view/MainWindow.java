@@ -17,7 +17,6 @@ import org.formation.gestionbiblio.controller.BiblioController;
 import org.formation.gestionbiblio.model.business.Bibliotheque;
 import org.formation.gestionbiblio.model.business.Bibliotheque.Livre;
 import org.formation.gestionbiblio.model.business.Bibliotheque.Livre.Auteur;
-import org.formation.gestionbiblio.model.technical.BiblioService;
 import org.formation.gestionbiblio.model.technical.XmlParser;
 
 import java.awt.event.ActionListener;
@@ -130,13 +129,15 @@ public class MainWindow {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		System.out.println("JENKINSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
 		ImageIO.setUseCache(false);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					AuthWindow authWindow = new AuthWindow();
+					authWindow.getFrame().setVisible(true);
+					
 					MainWindow window = new MainWindow();
-					window.frame.setVisible(true);
+					//window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -180,7 +181,7 @@ public class MainWindow {
 			}
 		});
 		
-		mntmExportWord = new JMenuItem("Export Word");
+		mntmExportWord = new JMenuItem("Export word");
 		mntmExportWord.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -198,7 +199,7 @@ public class MainWindow {
 		this.mntmSaveAs = new JMenuItem("Save as");
 		mntmSaveAs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				saveFileAs();
+				saveFileAs("Save XML as", "xml");
 			}
 		});
 		mnFile.add(mntmSaveAs);
@@ -227,13 +228,13 @@ public class MainWindow {
 		scrollPane.setBounds(0, 0, 1440, 300);
 		frame.getContentPane().add(scrollPane);
 		
-		table = new JTable(BiblioService.getInstance().getBiblio());
+		table = new JTable(BiblioController.getInstance().getBiblio());
 		
 		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
 		    @Override
 		    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 		        final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-		        c.setBackground(row % 2 == 0 ? Color.LIGHT_GRAY : Color.getHSBColor(116, 123, 130));
+		        c.setBackground(row % 2 == 0 ? Color.LIGHT_GRAY : Color.GRAY);
 		        return this;
 		    }
 		});
@@ -416,7 +417,7 @@ public class MainWindow {
             try {
             	this.file = chooser.getSelectedFile(); // stockage du fichier ouvert
             	BiblioController.getInstance().setBiblio(chooser.getSelectedFile()); // MAJ de la biblio depuis le fichier importé
-            	this.table.setModel(BiblioService.getInstance().getBiblio()); //MAJ du tableau côté vue depuis la biblio côté model métier
+            	this.table.setModel(BiblioController.getInstance().getBiblio()); //MAJ du tableau côté vue depuis la biblio côté model métier
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(null, "Problème au niveau de l'importation du fichier, probablement que le fichier XML ne respecte pas les régles de la XSD");
 				e.printStackTrace();
@@ -437,10 +438,10 @@ public class MainWindow {
 					table.setValueAt(tf_parution.getText().toString(),table.getSelectedRow(), 3);
 					table.setValueAt(tf_colonne.getText(),table.getSelectedRow(), 4);
 					table.setValueAt(tf_rangee.getText().toString(),table.getSelectedRow(), 5);
-					BiblioService.getInstance().getBiblio().setValueAt(tf_imgUrl.getText().toString(),table.getSelectedRow(), 6);
+					BiblioController.getInstance().getBiblio().setValueAt(tf_imgUrl.getText().toString(),table.getSelectedRow(), 6);
 					if(cb_type.getSelectedItem() != null)
-						BiblioService.getInstance().getBiblio().setValueAt(cb_type.getSelectedItem().toString(), table.getSelectedRow(), 7);
-					BiblioService.getInstance().getBiblio().setValueAt(tf_personne.getText(), table.getSelectedRow(), 8);
+						BiblioController.getInstance().getBiblio().setValueAt(cb_type.getSelectedItem().toString(), table.getSelectedRow(), 7);
+					BiblioController.getInstance().getBiblio().setValueAt(tf_personne.getText(), table.getSelectedRow(), 8);
 					
 					/* 
 					 * Refresh des champs du formulaire
@@ -456,7 +457,7 @@ public class MainWindow {
 					tf_personne.setText("");
 					cb_type.setSelectedItem("Acquis");
 					
-					BiblioService.getInstance().getBiblio().fireTableDataChanged();
+					BiblioController.getInstance().getBiblio().fireTableDataChanged();
 				}
 					
 			}
@@ -474,7 +475,7 @@ public class MainWindow {
     }
     
     /*
-     * Retourne vrai si le champ colonne respecte le critère d'acceptance
+     * Retourne vrai si le champ "colonne" respecte le critère d'acceptance
      */
     private boolean isColonneValid() {
     	try {
@@ -491,7 +492,7 @@ public class MainWindow {
     }
     
     /*
-     * retourne vrai si le champ rangee respecte le critère d'acceptance
+     * retourne vrai si le champ "rangee" respecte le critère d'acceptance
      */
     private boolean isRangeeValid() {
     	try {
@@ -508,7 +509,7 @@ public class MainWindow {
     }
     
     /*
-     * retourne vrai si le champ parution respecte le critère d'acceptance
+     * Retourne vrai si le champ "parution" respecte le critère d'acceptance
      */
     private boolean isParutionValid() {
     	try {
@@ -554,19 +555,19 @@ public class MainWindow {
     	                    tf_parution.setText(table.getValueAt(table.getSelectedRow(), 3).toString());
     	                    tf_colonne.setText(table.getValueAt(table.getSelectedRow(), 4).toString());
     	                    tf_rangee.setText(table.getValueAt(table.getSelectedRow(), 5).toString());
-    	                    tf_imgUrl.setText(BiblioService.getInstance().getBiblio().getLivre().get(table.getSelectedRow()).getImgUrl());
-    	                    cb_type.setSelectedItem(BiblioService.getInstance().getBiblio().getLivre().get(table.getSelectedRow()).getType());
+    	                    tf_imgUrl.setText(BiblioController.getInstance().getBiblio().getLivre().get(table.getSelectedRow()).getImgUrl());
+    	                    cb_type.setSelectedItem(BiblioController.getInstance().getBiblio().getLivre().get(table.getSelectedRow()).getType());
     	                    
     	                    if(cb_type.getSelectedItem().toString().matches("Prete|Emprunte"))
     	                    	tf_personne.setText(table.getValueAt(table.getSelectedRow(), 8).toString());
     	                    
     	                    /* Récupération de l'image */
-    	                    if(BiblioService.getInstance().getBiblio().getLivre().get(table.getSelectedRow()).getImgUrl() != null) {
+    	                    if(BiblioController.getInstance().getBiblio().getLivre().get(table.getSelectedRow()).getImgUrl() != null) {
     	                    	URL url = null;
     	                    	
-    	                    	if(!BiblioService.getInstance().getBiblio().getLivre().get(table.getSelectedRow()).getImgUrl().isEmpty()) {
+    	                    	if(!BiblioController.getInstance().getBiblio().getLivre().get(table.getSelectedRow()).getImgUrl().isEmpty()) {
     	                    		try {
-    	    							url = new URL(BiblioService.getInstance().getBiblio().getLivre().get(table.getSelectedRow()).getImgUrl());
+    	    							url = new URL(BiblioController.getInstance().getBiblio().getLivre().get(table.getSelectedRow()).getImgUrl());
     	    						} catch (MalformedURLException e) {
     	    							System.out.println("URL INCORRECTE");
     	    							e.printStackTrace();
@@ -602,8 +603,8 @@ public class MainWindow {
             public void actionPerformed(ActionEvent e) {
             	
                 // add row to the model
-                BiblioService.getInstance().getBiblio().removeRow(table.getSelectedRow());
-                BiblioService.getInstance().getBiblio().fireTableDataChanged();
+            	BiblioController.getInstance().getBiblio().removeRow(table.getSelectedRow());
+            	BiblioController.getInstance().getBiblio().fireTableDataChanged();
             }
         });
 		
@@ -633,8 +634,8 @@ public class MainWindow {
             	newLivre.setPersonnePret(tf_personne.getText());
             	newLivre.setType(cb_type.getSelectedItem().toString());
             	
-            	BiblioService.getInstance().getBiblio().getLivre().add(newLivre);
-            	BiblioService.getInstance().getBiblio().fireTableDataChanged();
+            	BiblioController.getInstance().getBiblio().getLivre().add(newLivre);
+            	BiblioController.getInstance().getBiblio().fireTableDataChanged();
             }
         });
     }
@@ -644,7 +645,7 @@ public class MainWindow {
      */
     private boolean saveFile() {
     	try {
-			XmlParser.marshal(BiblioService.getInstance().getBiblio(), this.file.getAbsolutePath());
+			XmlParser.marshal(BiblioController.getInstance().getBiblio(), this.file.getAbsolutePath());
 			return true;
 		} catch (Exception e) {
 			System.out.println("erreur in SaveFile()");
@@ -658,13 +659,13 @@ public class MainWindow {
      * Méthode (appélée au click du bouton sauvegarder sous) pour sauvagarder un nouveau fichier XML 
      * dans le repertoire choisi
      */
-    private boolean saveFileAs() {
-    	FileDialog fDialog = new FileDialog(frame, "Save as", FileDialog.SAVE);
+    private boolean saveFileAs(String saveName, String format) {
+    	FileDialog fDialog = new FileDialog(frame, saveName, FileDialog.SAVE);
         fDialog.setVisible(true);
         String path = fDialog.getDirectory() + fDialog.getFile(); 
     	
     	try {
-			XmlParser.marshal(BiblioService.getInstance().getBiblio(), (path + ".xml"));
+			XmlParser.marshal(BiblioController.getInstance().getBiblio(), (path + "." + format));
 			return true;
 		} catch (Exception e) {
 			System.out.println("erreur in SaveFile()");

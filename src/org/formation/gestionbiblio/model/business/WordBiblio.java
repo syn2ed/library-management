@@ -1,4 +1,4 @@
-package org.formation.gestionbiblio.view;
+package org.formation.gestionbiblio.model.business;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -11,11 +11,11 @@ import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
-import org.formation.gestionbiblio.model.technical.BiblioService;
+import org.formation.gestionbiblio.controller.BiblioController;
 
 import javafx.css.ParsedValue;
 
-public class ExportBiblio {
+public class WordBiblio {
 	//Blank Document
     XWPFDocument document;
 	XWPFParagraph paragraph_header;
@@ -77,11 +77,11 @@ public class ExportBiblio {
 		    	sommaire.addCarriageReturn();
 		    	int j;
 				j=0;
-				while(j<BiblioService.getInstance().getBiblio().getLivre().size())
+				while(j<BiblioController.getInstance().getBiblio().getLivre().size())
 				{		
 						String nom;
 						
-						nom = "          "+BiblioService.getInstance().getBiblio().getLivre().get(j).getTitre();
+						nom = "          "+BiblioController.getInstance().getBiblio().getLivre().get(j).getTitre();
 						sommaire.setText(nom);
 						sommaire.addCarriageReturn();
 						j++;
@@ -110,11 +110,11 @@ public class ExportBiblio {
 		    	livres = paragraph_livres.createRun();
 		    	int i;
 				i=0;
-				while(i<BiblioService.getInstance().getBiblio().getLivre().size())
+				while(i<BiblioController.getInstance().getBiblio().getLivre().size())
 				{		
-						String parutionStr = Integer.toString(BiblioService.getInstance().getBiblio().getLivre().get(i).getParution());
-						String rangeeStr = Integer.toString(BiblioService.getInstance().getBiblio().getLivre().get(i).getRangee());
-						String colonneStr = Integer.toString(BiblioService.getInstance().getBiblio().getLivre().get(i).getColonne());
+						String parutionStr = Integer.toString(BiblioController.getInstance().getBiblio().getLivre().get(i).getParution());
+						String rangeeStr = Integer.toString(BiblioController.getInstance().getBiblio().getLivre().get(i).getRangee());
+						String colonneStr = Integer.toString(BiblioController.getInstance().getBiblio().getLivre().get(i).getColonne());
 						String nom;
 						String auteur;
 						String description;
@@ -122,13 +122,13 @@ public class ExportBiblio {
 						String rangee;
 						String colonne;
 						String urlimage;
-						nom ="NOM DU LIVRE: "+BiblioService.getInstance().getBiblio().getLivre().get(i).getTitre();
+						nom ="NOM DU LIVRE: "+BiblioController.getInstance().getBiblio().getLivre().get(i).getTitre();
 						livres.setText(nom);
 						livres.addCarriageReturn();
-						auteur="     AUTEUR: "+BiblioService.getInstance().getBiblio().getLivre().get(i).getAuteur().getNom();
+						auteur="     AUTEUR: "+BiblioController.getInstance().getBiblio().getLivre().get(i).getAuteur().getNom();
 						livres.setText(auteur);
 						livres.addCarriageReturn();
-						description="     DESCRIPTION: "+BiblioService.getInstance().getBiblio().getLivre().get(i).getPresentation();
+						description="     DESCRIPTION: "+BiblioController.getInstance().getBiblio().getLivre().get(i).getPresentation();
 						livres.setText(description);
 						livres.addCarriageReturn();
 						parution="     PARUTION: "+parutionStr;
@@ -140,7 +140,7 @@ public class ExportBiblio {
 						colonne="     COLONNE: "+colonneStr;
 						livres.setText(colonne);
 						livres.addCarriageReturn();
-						urlimage="     IMAGE URL: "+BiblioService.getInstance().getBiblio().getLivre().get(i).getImgUrl();
+						urlimage="     IMAGE URL: "+BiblioController.getInstance().getBiblio().getLivre().get(i).getImgUrl();
 						livres.setText(urlimage);
 						livres.addCarriageReturn();
 						livres.addCarriageReturn();
