@@ -21,6 +21,7 @@ public class Authentificator {
 	private String usersFilePath = "Users.json";
 	private List<User> users;
 	private Boolean isAuthenticated = false;
+	private User userAuthentified;
 	
 	public Authentificator() throws FileNotFoundException {
 		this.users = this.parseUsers(usersFilePath);
@@ -36,12 +37,12 @@ public class Authentificator {
 	}
 
 	public boolean checkUser(String username, String password) {
-		System.out.println(username.toString());
-		System.out.println(password.toString());
 		for (User user : this.users) {
 			if(user.getUsername().equals(username)
 					&& user.getPassword().equals(password)) {
 				this.isAuthenticated = true;
+				this.userAuthentified = user;
+				System.out.println(user.getRole());
 				return isAuthenticated;
 			}
 		}

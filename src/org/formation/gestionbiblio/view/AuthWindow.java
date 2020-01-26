@@ -21,6 +21,8 @@ import java.awt.Button;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextPane;
+import java.awt.Color;
 
 public class AuthWindow {
 
@@ -68,11 +70,19 @@ public class AuthWindow {
 			public void actionPerformed(ActionEvent e) {
 				if(BiblioController.getInstance().getAuthentificator().checkUser(textField.getText(), textField_1.getText())) {
 					JOptionPane.showMessageDialog(null, "Success!");
+					BiblioController.getInstance().getMainWindow().getFrame().setVisible(true);
+				} else {
+					JOptionPane.showMessageDialog(null, "Identifiants incorrects");
 				}
 			}
 		});
 		btnConnexion.setBounds(155, 156, 117, 29);
 		frame.getContentPane().add(btnConnexion);
+		
+		JLabel lblNewLabel = new JLabel("BIBLIO APP");
+		lblNewLabel.setForeground(Color.BLUE);
+		lblNewLabel.setBounds(164, 17, 86, 16);
+		frame.getContentPane().add(lblNewLabel);
 	}
 
 	public JFrame getFrame() {

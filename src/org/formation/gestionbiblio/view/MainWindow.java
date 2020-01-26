@@ -133,11 +133,9 @@ public class MainWindow {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					BiblioController.getInstance(); // to start AuthWindow
 					AuthWindow authWindow = new AuthWindow();
 					authWindow.getFrame().setVisible(true);
-					
-					MainWindow window = new MainWindow();
-					//window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -156,7 +154,7 @@ public class MainWindow {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
+		this.frame = new JFrame();
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -682,4 +680,9 @@ public class MainWindow {
 	public void setTable(JTable table) {
 		this.table = table;
 	}
+
+	public JFrame getFrame() {
+		return frame;
+	}
+	
 }
