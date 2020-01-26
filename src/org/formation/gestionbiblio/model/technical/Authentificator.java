@@ -10,7 +10,9 @@ import java.util.Scanner;
 
 import javax.swing.JTextField;
 
+import org.apache.log4j.Logger;
 import org.formation.gestionbiblio.model.business.User;
+import org.formation.gestionbiblio.utils.BiblioAppLogger;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -42,11 +44,14 @@ public class Authentificator {
 					&& user.getPassword().equals(password)) {
 				this.isAuthenticated = true;
 				this.userAuthentified = user;
-				System.out.println(user.getRole());
 				return isAuthenticated;
 			}
 		}
 		return isAuthenticated;
+	}
+
+	public User getUserAuthentified() {
+		return userAuthentified;
 	}
 	
 }

@@ -18,6 +18,7 @@ import org.formation.gestionbiblio.model.business.Bibliotheque;
 import org.formation.gestionbiblio.model.business.Bibliotheque.Livre;
 import org.formation.gestionbiblio.model.business.Bibliotheque.Livre.Auteur;
 import org.formation.gestionbiblio.model.technical.XmlParser;
+import org.formation.gestionbiblio.utils.BiblioAppLogger;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -146,14 +147,22 @@ public class MainWindow {
 	/**
 	 * Create the application.
 	 */
+	public MainWindow(int role) {
+		initialize(role);
+	}
+	
+	/**
+	 * constructor/entryPoint for Design
+	 * @wbp.parser.entryPoint
+	 */
 	public MainWindow() {
-		initialize();
+		initialize(1);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	public void initialize(int role) {
 		this.frame = new JFrame();
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -172,12 +181,15 @@ public class MainWindow {
 		});
 		mnFile.add(mntmOpenFile);
 		
-		this.mntmSave = new JMenuItem("Save");
-		mntmSave.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				saveFile();
-			}
-		});
+		if(role > 0) {
+			this.mntmSave = new JMenuItem("Save");
+			mntmSave.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					saveFile();
+				}
+			});
+			mnFile.add(mntmSave);
+		}
 		
 		mntmExportWord = new JMenuItem("Export word");
 		mntmExportWord.addActionListener(new ActionListener() {
@@ -192,15 +204,17 @@ public class MainWindow {
 		});
 		
 		mnFile.add(mntmExportWord);
-		mnFile.add(mntmSave);
 		
-		this.mntmSaveAs = new JMenuItem("Save as");
-		mntmSaveAs.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				saveFileAs("Save XML as", "xml");
-			}
-		});
-		mnFile.add(mntmSaveAs);
+		if(role > 0) {
+			this.mntmSaveAs = new JMenuItem("Save as");
+			mntmSaveAs.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					saveFileAs("Save XML as", "xml");
+				}
+			});
+			mnFile.add(mntmSaveAs);
+		}
+		
 		
 		mntmExit = new JMenuItem("Exit");
 		mntmExit.addActionListener(new ActionListener() {
@@ -243,11 +257,13 @@ public class MainWindow {
 		
 		scrollPane.setViewportView(table);
 		
-		this.formulairePanel = new JPanel();
-		formulairePanel.setBackground(Color.LIGHT_GRAY);
-		formulairePanel.setBounds(10, 312, 804, 174);
-		frame.getContentPane().add(formulairePanel);
-		
+		if(role > 0) {
+			this.formulairePanel = new JPanel();
+			formulairePanel.setBackground(Color.LIGHT_GRAY);
+			formulairePanel.setBounds(10, 312, 804, 174);
+			frame.getContentPane().add(formulairePanel);
+		}
+			
 		textField_1 = new JTextField();
 		textField_1.setColumns(10);
 		
@@ -380,16 +396,19 @@ public class MainWindow {
 		lblNewLabel.setBounds(474, 53, 215, 115);
 		formulairePanel.add(lblNewLabel);
 		
-		this.panel = new JPanel();
-		panel.setBackground(Color.LIGHT_GRAY);
-		panel.setBounds(849, 312, 95, 171);
-		frame.getContentPane().add(panel);
+		if(role > 0) {
+			this.panel = new JPanel();
+			panel.setBackground(Color.LIGHT_GRAY);
+			panel.setBounds(849, 312, 95, 171);
+			frame.getContentPane().add(panel);
+			
+			this.btn_add = new JButton("+");
+			panel.add(btn_add);
+			
+			this.btn_suppr = new JButton("-");
+			panel.add(btn_suppr);
+		}
 		
-		this.btn_add = new JButton("+");
-		panel.add(btn_add);
-		
-		this.btn_suppr = new JButton("-");
-		panel.add(btn_suppr);
 		
 		/*
 		 * Mise en place de tous les EventListeners
@@ -441,6 +460,8 @@ public class MainWindow {
 						BiblioController.getInstance().getBiblio().setValueAt(cb_type.getSelectedItem().toString(), table.getSelectedRow(), 7);
 					BiblioController.getInstance().getBiblio().setValueAt(tf_personne.getText(), table.getSelectedRow(), 8);
 					
+					logBookEdit(tf_titre.getText(), tf_auteur.getText(), tf_presentation.getText(), tf_parution.getText(), 
+							tf_colonne.getText(), tf_colonne.getText(), tf_rangee.getText(), cb_type.getSelectedItem().toString(), tf_personne.getText());
 					/* 
 					 * Refresh des champs du formulaire
 					 */
@@ -461,6 +482,14 @@ public class MainWindow {
 			}
 
 		});
+    }
+    
+    private void logBookEdit(String title, String autor, String pres, String parution, String column, String row, String imgUrl, String type, String person) {
+    	BiblioAppLogger.logger.info("Book edit by " + BiblioController.getInstance().getAuthentificator().getUserAuthentified().getUsername()
+    			+ ": \n\t -title: " + title + "\n\t -autor: " + autor + "\n\t -presentation: " + pres
+    			+ "\n\t -parution: " + parution + "\n\t -column: " + column + "\n\t -row: " + row 
+    			+ "\n\t -imgUrl: " + imgUrl + "\n\t -type: " + type + "\n\t -person: " + person
+				);
     }
     
     /*

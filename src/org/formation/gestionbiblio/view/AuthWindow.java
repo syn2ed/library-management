@@ -69,7 +69,8 @@ public class AuthWindow {
 		btnConnexion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(BiblioController.getInstance().getAuthentificator().checkUser(textField.getText(), textField_1.getText())) {
-					JOptionPane.showMessageDialog(null, "Success!");
+					JOptionPane.showMessageDialog(null, "Hello " + BiblioController.getInstance().getAuthentificator().getUserAuthentified().getUsername() + "!");
+					BiblioController.getInstance().getMainWindow().initialize(BiblioController.getInstance().getAuthentificator().getUserAuthentified().getRole());
 					BiblioController.getInstance().getMainWindow().getFrame().setVisible(true);
 				} else {
 					JOptionPane.showMessageDialog(null, "Identifiants incorrects");

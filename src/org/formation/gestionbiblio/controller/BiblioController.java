@@ -71,7 +71,4 @@ public class BiblioController {
 	public MainWindow getMainWindow() {
 		return mainWindow;
 	}
-	
-	
-
 }
