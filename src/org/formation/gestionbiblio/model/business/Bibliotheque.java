@@ -143,10 +143,11 @@ public class Bibliotheque extends AbstractTableModel{
     	List<Bibliotheque.Livre> loanedBooks = new ArrayList<Bibliotheque.Livre>();
     	
     	for (Bibliotheque.Livre book : this.getLivre()) {
-			if(book.getType().equals("pret"))
+			if(book.getType().equals("Prete"))
+				loanedBooks.add(book);
 		}
-    		this.getLivre()
-        return this.livre;
+    	
+        return loanedBooks;
     }
     
     /**
