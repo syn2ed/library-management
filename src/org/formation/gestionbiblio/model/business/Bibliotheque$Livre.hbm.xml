@@ -1,0 +1,17 @@
+<?xml version="1.0"?><!DOCTYPE hibernate-mapping
+  PUBLIC "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+  "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd"><hibernate-mapping>
+  <class name="org.formation.gestionbiblio.model.business.Bibliotheque$Livre" table="livre">
+    <id type="int" column="livre_id">
+      <generator class="native"/>
+    </id>
+    <property name="titre" type="string" not-null="true" />
+    <property name="presentation" type="string" not-null="true" />
+    <property name="parution" type="int" not-null="true" />
+    <property name="colonne" type="short" not-null="true" />
+    <property name="rangee" type="short" not-null="true" />
+    <property name="imgUrl" type="string" not-null="true" />
+    <property name="type" type="string" not-null="true" />
+    <property name="personnePret" type="string" not-null="true" />
+  </class>
+</hibernate-mapping>

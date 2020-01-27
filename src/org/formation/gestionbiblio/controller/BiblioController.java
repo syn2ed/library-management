@@ -7,6 +7,7 @@ import java.io.IOException;
 import org.formation.gestionbiblio.model.business.Bibliotheque;
 import org.formation.gestionbiblio.model.business.WordBiblio;
 import org.formation.gestionbiblio.model.technical.Authentificator;
+import org.formation.gestionbiblio.model.technical.DbService;
 import org.formation.gestionbiblio.model.technical.XmlParser;
 import org.formation.gestionbiblio.view.MainWindow;
 
@@ -20,6 +21,7 @@ public class BiblioController {
 	private WordBiblio exporteurWordBiblio;
 	private Authentificator authentificator;
 	private MainWindow mainWindow;
+	private DbService dbService;
 
 	/*
 	 * Récup de l'instance du controller (singleton)
@@ -30,6 +32,7 @@ public class BiblioController {
 			biblioControllerInstance.exporteurWordBiblio = new WordBiblio();
 			biblioControllerInstance.biblio = new Bibliotheque();
 			biblioControllerInstance.mainWindow = new MainWindow();
+			biblioControllerInstance.dbService = new DbService();
 			try {
 				biblioControllerInstance.authentificator = new Authentificator();
 			} catch (FileNotFoundException e) {
@@ -70,5 +73,9 @@ public class BiblioController {
 
 	public MainWindow getMainWindow() {
 		return mainWindow;
+	}
+	
+	public void getLivreById() {
+		biblioControllerInstance.dbService.getLivreById(1);
 	}
 }
