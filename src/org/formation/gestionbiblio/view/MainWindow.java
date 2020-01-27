@@ -12,6 +12,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import org.formation.gestionbiblio.controller.BiblioController;
 import org.formation.gestionbiblio.model.business.Bibliotheque;
@@ -32,6 +34,8 @@ import java.awt.Dimension;
 import javax.swing.JScrollPane;
 import java.awt.FlowLayout;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.imageio.ImageIO;
@@ -49,6 +53,7 @@ import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.RowFilter;
 import javax.swing.JEditorPane;
 import javax.swing.JList;
 import javax.swing.JComboBox;
@@ -61,6 +66,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Calendar;
+import javax.swing.SwingConstants;
+import java.awt.Font;
 
 public class MainWindow {
 
@@ -117,6 +124,12 @@ public class MainWindow {
 	private JMenuItem mntmExportWord;
 	private JMenuItem mntmExit;
 	private JMenuItem mntmInfo;
+	private JPanel panel_img;
+	private JPanel panel_3;
+	private JLabel lblNewLabel_1;
+	private JTextField textField;
+	
+	private TableRowSorter<TableModel> sorter;
 	
 	public File getFile() {
 		return file;
@@ -242,8 +255,13 @@ public class MainWindow {
 		mnAbout.add(mntmInfo);
 		frame.getContentPane().setLayout(null);
 		
+		panel_3 = new JPanel();
+		panel_3.setBounds(0, 0, 0, 15);
+		frame.getContentPane().add(panel_3);
+		panel_3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
 		this.scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 0, 1440, 300);
+		scrollPane.setBounds(0, 60, 1440, 300);
 		frame.getContentPane().add(scrollPane);
 		
 		table = new JTable(BiblioController.getInstance().getBiblio());
@@ -266,7 +284,7 @@ public class MainWindow {
 		if(role > 0) {
 			this.formulairePanel = new JPanel();
 			formulairePanel.setBackground(Color.LIGHT_GRAY);
-			formulairePanel.setBounds(10, 312, 804, 174);
+			formulairePanel.setBounds(10, 380, 804, 174);
 			frame.getContentPane().add(formulairePanel);
 		}
 			
@@ -397,15 +415,31 @@ public class MainWindow {
 		tf_personne.setColumns(10);
 		panel_personne.add(tf_personne);
 		
+		panel_img = new JPanel();
+		panel_img.setBounds(1200, 400, 200, 280);
+		frame.getContentPane().add(panel_img);
+		panel_img.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
 		this.lblNewLabel = new JLabel();
 		lblNewLabel.setBackground(Color.ORANGE);
-		lblNewLabel.setBounds(474, 53, 215, 115);
-		formulairePanel.add(lblNewLabel);
+		//formulairePanel.add(lblNewLabel);
+		panel_img.add(lblNewLabel);
+		
+		lblNewLabel_1 = new JLabel("Recherche");
+		lblNewLabel_1.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+		lblNewLabel_1.setBounds(6, 32, 71, 16);
+		frame.getContentPane().add(lblNewLabel_1);
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.LEFT);
+		
+		textField = new JTextField();
+		textField.setBounds(82, 27, 130, 26);
+		frame.getContentPane().add(textField);
+		textField.setColumns(10);
 		
 		if(role > 0) {
 			this.panel = new JPanel();
 			panel.setBackground(Color.LIGHT_GRAY);
-			panel.setBounds(849, 312, 95, 171);
+			panel.setBounds(849, 380, 95, 171);
 			frame.getContentPane().add(panel);
 			
 			this.btn_add = new JButton("+");
@@ -415,16 +449,51 @@ public class MainWindow {
 			panel.add(btn_suppr);
 		}
 		
+		
+		
 		/*
 		 * Mise en place de tous les EventListeners
 		 */
 		this.setRowsEventListener();
 		this.setTypeLivreEventListener();
 		this.setValiderBtnEventListener();
-		this.setAddSuppBtnsEventListeners();		
+		this.setAddSuppBtnsEventListeners();	
+		
 					
 	}
 	
+	private void setRowSorter() {
+		sorter = new TableRowSorter<TableModel>(table.getModel());
+		table.setRowSorter(sorter);
+		
+		this.setSearchFieldEventListener();
+	}
+	
+	private void setSearchFieldEventListener() {
+		textField.getDocument().addDocumentListener(new DocumentListener() {
+	         @Override
+	         public void insertUpdate(DocumentEvent e) {
+	            search(textField.getText());
+	         }
+	         @Override
+	         public void removeUpdate(DocumentEvent e) {
+	            search(textField.getText());
+	         }
+	         @Override
+	         public void changedUpdate(DocumentEvent e) {
+	            search(textField.getText());
+	         }
+	         public void search(String str) {
+	            if (str.length() == 0) {
+	               sorter.setRowFilter(null);
+	            } else {
+	            	
+	               sorter.setRowFilter(RowFilter.regexFilter(str));
+	            }
+	         }
+	      });
+	}
+
 	/*
      * Fonction appelee au click du bouton "open file" afin de selectionner un fichier XML
      */
@@ -440,7 +509,9 @@ public class MainWindow {
             	this.file = chooser.getSelectedFile(); // stockage du fichier ouvert
             	BiblioController.getInstance().setBiblio(chooser.getSelectedFile()); // MAJ de la biblio depuis le fichier importé
             	this.table.setModel(BiblioController.getInstance().getBiblio()); //MAJ du tableau côté vue depuis la biblio côté model métier
-			} catch (Exception e) {
+            	setRowSorter();
+            	setSearchFieldEventListener();
+            } catch (Exception e) {
 				JOptionPane.showMessageDialog(null, "Problème au niveau de l'importation du fichier, probablement que le fichier XML ne respecte pas les régles de la XSD");
 				e.printStackTrace();
 			}
