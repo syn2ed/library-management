@@ -1,17 +1,25 @@
 package org.formation.gestionbiblio.model.business;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 
+import javax.imageio.ImageIO;
+
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTP;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTR;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTSectPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTText;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.util.Units;
 import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
 import org.apache.poi.xwpf.usermodel.BreakType;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -40,8 +48,9 @@ public class WordBiblio {
     XWPFTableRow tableligne1;
     XWPFTableRow tableligne2;
     String filename ="bibliotheque";
+    private Image img;
     
-	public void exportFile() throws IOException{
+	public void exportFile() throws IOException, InvalidFormatException{
     	try {
     		
 	      	//Write the Document in file system
@@ -50,7 +59,7 @@ public class WordBiblio {
 		    	//paragraph_pret = document.createParagraph();
     	      	
     	      	
-    	      	//creation header
+    	      	//CREATION HEADER
     	      	CTSectPr sectPr = document.getDocument().getBody().addNewSectPr();
     	        XWPFHeaderFooterPolicy policy = new XWPFHeaderFooterPolicy(document, sectPr);
 				
@@ -69,9 +78,6 @@ public class WordBiblio {
 	            parsHeader[0] = headerParagraph;
 	            policy.createHeader(XWPFHeaderFooterPolicy.DEFAULT, parsHeader);
 				
-				
-				
-
 				
 		    	paragraph_titre = document.createParagraph();
 		    	titre = paragraph_titre.createRun();
@@ -162,11 +168,30 @@ public class WordBiblio {
 						colonne="     COLONNE: "+colonneStr;
 						livres.setText(colonne);
 						livres.addCarriageReturn();
+						
+						//URL imgUrl = new URL(BiblioController.getInstance().getBiblio().getLivre().get(i).getImgUrl());
+						//this.img = ImageIO.read(imgUrl);
+						URL monurl = new URL (BiblioController.getInstance().getBiblio().getLivre().get(i).getImgUrl());
+						Image monimg = ImageIO.read(monurl);
+						
+						
+						BufferedImage img = ImageIO.read(monurl);
+						File file = new File("img");
+						ImageIO.write(img, "jpg", file);
+						String imgFile = file.getName(); 
+						
+						
+						livres.addPicture(new FileInputStream(file), XWPFDocument.PICTURE_TYPE_JPEG ,imgFile, Units.toEMU(200), Units.toEMU(200)); // 200x200 pixels
+						
+						/*
 						urlimage="     IMAGE URL: "+BiblioController.getInstance().getBiblio().getLivre().get(i).getImgUrl();
 						livres.setText(urlimage);
+						*/
+						
 						livres.addCarriageReturn();
 						livres.addCarriageReturn();
 						i++;
+						
 				 } 
 				
 				
