@@ -139,6 +139,16 @@ public class Bibliotheque extends AbstractTableModel{
     }
 
 
+    public List<Bibliotheque.Livre> getLoanedBooks() {
+    	List<Bibliotheque.Livre> loanedBooks = new ArrayList<Bibliotheque.Livre>();
+    	
+    	for (Bibliotheque.Livre book : this.getLivre()) {
+			if(book.getType().equals("pret"))
+		}
+    		this.getLivre()
+        return this.livre;
+    }
+    
     /**
      * <p>Classe Java pour anonymous complex type.
      * 

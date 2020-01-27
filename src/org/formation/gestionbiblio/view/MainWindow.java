@@ -143,6 +143,14 @@ public class MainWindow {
 			}
 		});
 	}
+	
+	/**
+	 * Constructor/entryPoint for Design
+	 * @wbp.parser.entryPoint
+	 */
+	public MainWindow() {
+		initialize(1);
+	}
 
 	/**
 	 * Create the application.
@@ -151,14 +159,6 @@ public class MainWindow {
 		initialize(role);
 	}
 	
-	/**
-	 * constructor/entryPoint for Design
-	 * @wbp.parser.entryPoint
-	 */
-	public MainWindow() {
-		initialize(1);
-	}
-
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -185,6 +185,8 @@ public class MainWindow {
 			this.mntmSave = new JMenuItem("Save");
 			mntmSave.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					BiblioAppLogger.logger.info("File saved by " + BiblioController.getInstance()
+							.getAuthentificator().getUserAuthentified().getUsername()); //logs
 					saveFile();
 				}
 			});
@@ -195,6 +197,8 @@ public class MainWindow {
 		mntmExportWord.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					BiblioAppLogger.logger.info("File exported by " + BiblioController.getInstance()
+					.getAuthentificator().getUserAuthentified().getUsername()); //logs
 					BiblioController.getInstance().exportBiblioAsWord();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
@@ -209,6 +213,8 @@ public class MainWindow {
 			this.mntmSaveAs = new JMenuItem("Save as");
 			mntmSaveAs.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					BiblioAppLogger.logger.info("File saved with \"save as\"by " + BiblioController.getInstance()
+					.getAuthentificator().getUserAuthentified().getUsername()); //logs
 					saveFileAs("Save XML as", "xml");
 				}
 			});
@@ -409,7 +415,6 @@ public class MainWindow {
 			panel.add(btn_suppr);
 		}
 		
-		
 		/*
 		 * Mise en place de tous les EventListeners
 		 */
@@ -490,6 +495,11 @@ public class MainWindow {
     			+ "\n\t -parution: " + parution + "\n\t -column: " + column + "\n\t -row: " + row 
     			+ "\n\t -imgUrl: " + imgUrl + "\n\t -type: " + type + "\n\t -person: " + person
 				);
+    }
+    
+    private void logBookDeletions(String title, String autor) {
+    	BiblioAppLogger.logger.info("Book deleted by " + BiblioController.getInstance().getAuthentificator().getUserAuthentified().getUsername()
+    			+ ": \n\t -title: " + title + "\n\t -autor: " + autor);
     }
     
     /*
@@ -629,7 +639,9 @@ public class MainWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
             	
-                // add row to the model
+                
+            	logBookDeletions(table.getValueAt(table.getSelectedRow(), 0).toString(),
+            			table.getValueAt(table.getSelectedRow(), 1).toString()); // logs
             	BiblioController.getInstance().getBiblio().removeRow(table.getSelectedRow());
             	BiblioController.getInstance().getBiblio().fireTableDataChanged();
             }
