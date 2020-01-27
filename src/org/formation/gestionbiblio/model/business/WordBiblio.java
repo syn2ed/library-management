@@ -3,17 +3,25 @@ package org.formation.gestionbiblio.model.business;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTP;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTR;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTSectPr;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTText;
+import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
 import org.apache.poi.xwpf.usermodel.BreakType;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFHeader;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 import org.formation.gestionbiblio.controller.BiblioController;
 
-import javafx.css.ParsedValue;
 
 public class WordBiblio {
 	//Blank Document
@@ -35,18 +43,35 @@ public class WordBiblio {
     
 	public void exportFile() throws IOException{
     	try {
-
+    		
 	      	//Write the Document in file system
 	      	FileOutputStream out = new FileOutputStream(new File(filename+".docx"));
     	      	document = new XWPFDocument(); 
-		    	
 		    	//paragraph_pret = document.createParagraph();
     	      	
-		    	paragraph_header = document.createParagraph();
-		    	header = paragraph_header.createRun();
-		    	header.setFontSize((short)(15));
-				header.setText(LocalDate.now() +" "+filename);
+    	      	
+    	      	//creation header
+    	      	CTSectPr sectPr = document.getDocument().getBody().addNewSectPr();
+    	        XWPFHeaderFooterPolicy policy = new XWPFHeaderFooterPolicy(document, sectPr);
 				
+				CTP ctpHeader = CTP.Factory.newInstance();
+	            CTR ctrHeader = ctpHeader.addNewR();
+	            CTText ctHeader = ctrHeader.addNewT();
+
+	            DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+	            Date date = new Date();
+	            String tctDate = format.format(date);
+
+	            String headerText = tctDate+" "+ filename;
+	            ctHeader.setStringValue(headerText);
+	            XWPFParagraph headerParagraph = new XWPFParagraph(ctpHeader, document);
+	            XWPFParagraph[] parsHeader = new XWPFParagraph[1];
+	            parsHeader[0] = headerParagraph;
+	            policy.createHeader(XWPFHeaderFooterPolicy.DEFAULT, parsHeader);
+				
+				
+				
+
 				
 		    	paragraph_titre = document.createParagraph();
 		    	titre = paragraph_titre.createRun();
@@ -93,11 +118,11 @@ public class WordBiblio {
 		    	sommaire.addCarriageReturn();
 		    	int k;
 				k=0;
-				while(k<BiblioController.getInstance().getBiblio().getLivre().size())
+				while(k<BiblioController.getInstance().getBiblio().getLoanedBooks().size())
 				{		
 						String nom;
 						
-						nom = "          "+BiblioController.getInstance().getBiblio().getLivre().get(k).getTitre();
+						nom = "          "+BiblioController.getInstance().getBiblio().getLoanedBooks().get(k).getTitre();
 						sommaire.setText(nom);
 						sommaire.addCarriageReturn();
 						k++;
