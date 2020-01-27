@@ -91,20 +91,17 @@ public class WordBiblio {
 				sommaire.addCarriageReturn();
 				sommaire.setText("LIVRES EN PRET: ");
 		    	sommaire.addCarriageReturn();
-/* FAIRE PAREIL MAIS AVEC LES LIVRES PRETES (getPret())
 		    	int k;
 				k=0;
-				while(k<App.getBiblio().getLivre().size())
+				while(k<BiblioController.getInstance().getBiblio().getLivre().size())
 				{		
 						String nom;
 						
-						nom = "          "+App.getBiblio().getLivre().get(k).getTitre();
+						nom = "          "+BiblioController.getInstance().getBiblio().getLivre().get(k).getTitre();
 						sommaire.setText(nom);
 						sommaire.addCarriageReturn();
 						k++;
 				 } 
-		    	sommaire.addBreak(BreakType.PAGE);
-*/				
 		    	sommaire.addBreak(BreakType.PAGE);
 				paragraph_livres = document.createParagraph();
 		    	livres = paragraph_livres.createRun();
