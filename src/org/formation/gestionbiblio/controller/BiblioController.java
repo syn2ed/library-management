@@ -92,4 +92,8 @@ public class BiblioController {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public void getLivresThatAreNotInDbFromXml() {
+		this.dbService.getLivresThatAreNotInDbFromXml(this.biblio);
+	}
 }

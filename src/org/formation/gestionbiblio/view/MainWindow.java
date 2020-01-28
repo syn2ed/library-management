@@ -820,7 +820,7 @@ public class MainWindow {
 		
 		btnSynchronizeDbFrom.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(BiblioController.getInstance().getBiblio().getRowCount());
+				BiblioController.getInstance().getLivresThatAreNotInDbFromXml();
 			}
 		});
     }

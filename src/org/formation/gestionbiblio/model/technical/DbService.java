@@ -18,7 +18,8 @@ import org.hibernate.query.Query;
 public class DbService {
 	private Configuration config;
 	protected EntityManager manager;
-	SessionFactory sessionFactory;
+	private SessionFactory sessionFactory;
+	private Session session;
 	
 	public DbService() {
 		this.config = new Configuration();
@@ -27,7 +28,9 @@ public class DbService {
 	
 	public void initConfig() {
 		this.config.addClass(Livre.class);
-		this.sessionFactory = config.buildSessionFactory();  
+		this.sessionFactory = config.buildSessionFactory(); 
+		this.session = this.sessionFactory.openSession();
+		
 	}
 	
 	public void getLivreById(int i) {
@@ -37,9 +40,9 @@ public class DbService {
 	        Livre livre = (Livre) session.load(Livre.class, new Integer(1)); 
 	        System.out.println(livre.getAuteur().getNom()); 
 	      } finally { 
-	        session.close(); 
+	        //session.close(); 
 	      } 
-	      sessionFactory.close();
+	      //sessionFactory.close();
 	}
 	
 	/**
@@ -55,9 +58,9 @@ public class DbService {
 	    try { 
 	        livres = (ArrayList<Livre>) session.createQuery(hql).list(); 
 	      } finally { 
-	        session.close(); 
+	        //session.close(); 
 	      } 
-	    sessionFactory.close();
+	    //sessionFactory.close();
 	    
 	    for (Livre livre : livres) {
 			dbBiblio.getLivre().add(livre);
@@ -70,23 +73,41 @@ public class DbService {
 		List<Livre> absentLivres = this.getLivresThatAreNotInDbFromXml(biblio);
 		List<Livre> livres = biblio.getLivre();
 
-	    Session session = this.sessionFactory.openSession();
+	    this.session = this.sessionFactory.openSession();
 	    String hql = "from org.formation.gestionbiblio.model.business.Bibliotheque$Livre";
 	    try { 
 	        livres = (ArrayList<Livre>) session.createQuery(hql).list(); 
 	      } finally { 
-	        session.close(); 
+	        //session.close(); 
 	      } 
-	    sessionFactory.close();
-	    
+	    //sessionFactory.close();
 	    for (Livre livre : livres) {
 			//dbBiblio.getLivre().add(livre);
 		}
 	}
 	
-	private List<Livre> getLivresThatAreNotInDbFromXml(Bibliotheque biblio) {
+	public List<Livre> getLivresThatAreNotInDbFromXml(Bibliotheque biblio) {
 		List<Livre> livresXml = biblio.getLivre();
+		List<Livre> livresToAddInDb = new ArrayList<Livre>();
+		//boolean isInDb = false;
 		
-		return null;
+		for (Livre livre : livresXml) {
+			String titre = livre.getTitre();
+			
+			this.sessionFactory.openSession();
+			
+			Query query = session
+					.createQuery("select l from org.formation.gestionbiblio.model.business.Bibliotheque$Livre l where l.titre = " 
+							+ " :title").setParameter("title", titre);
+			
+			if(query.getResultList().size() == 0) {
+				livresToAddInDb.add(livre);
+			}
+		}
+		
+		for (Livre livre : livresToAddInDb) {
+			System.out.println(livre.getTitre());
+		}
+		return livresToAddInDb;
 	}
 }
