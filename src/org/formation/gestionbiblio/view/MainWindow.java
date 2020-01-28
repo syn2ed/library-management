@@ -177,7 +177,6 @@ public class MainWindow {
 	 */
 	public MainWindow(int role) {
 		initialize(role);
-		
 	}
 	
 	/**
@@ -676,7 +675,6 @@ public class MainWindow {
             		panel_personne.setVisible(false);
             		tf_personne.setText("");
             	}
-            		
             }
         });
     }

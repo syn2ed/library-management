@@ -22,6 +22,6 @@
       <generator class="native"/>
     </id>
     <property name="nom" type="string" not-null="true" />
-    <property name="prenom" type="string" not-null="true" />
+    <property name="prenom" type="string" />
   </class>
 </hibernate-mapping>

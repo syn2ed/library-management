@@ -78,14 +78,12 @@ public class DbService {
 	public void synchronizeDbFromXmlBiblio(Bibliotheque biblio) {
 		List<Livre> absentLivres = this.getLivresThatAreNotInDbFromXml(biblio);
 	    this.session = this.sessionFactory.openSession();
-	    
-	    /*
+
 	    for (Livre livre : absentLivres) {
 	    	livre.getAuteur().setPrenom("prenom");
 	    	session.saveOrUpdate(livre.getAuteur());
 	   		session.saveOrUpdate(livre);
 		}
-		*/
 	}
 	
 	/**

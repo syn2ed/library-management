@@ -449,9 +449,7 @@ public class Bibliotheque extends AbstractTableModel{
             public void setPrenom(String value) {
                 this.prenom = value;
             }
-
         }
-
     }
 
 
