@@ -4,6 +4,7 @@ public class User {
 	private String username;
 	private String password;
 	private int role;
+	private boolean isValidate;
 	
 	public String getUsername() {
 		return username;
@@ -22,5 +23,11 @@ public class User {
 	}
 	public void setRole(int role) {
 		this.role = role;
+	}
+	public boolean isValidate() {
+		return isValidate;
+	}
+	public void setValidate(boolean validate) {
+		this.isValidate = validate;
 	}
 }

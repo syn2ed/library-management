@@ -151,8 +151,11 @@ public class MainWindow {
 			public void run() {
 				try {
 					BiblioController.getInstance(); // to start AuthWindow
+					BiblioController.getInstance().getAuthWindow().getFrame().setVisible(true);
+					/*
 					AuthWindow authWindow = new AuthWindow();
 					authWindow.getFrame().setVisible(true);
+					*/
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -195,7 +198,7 @@ public class MainWindow {
 		admin_registrations_Barbtn = new JMenu("Inscriptions");
 		menuBar.add(admin_registrations_Barbtn);
 		
-		this.admin_registrations_BarUnderbtn = new JMenuItem("G�rer");
+		this.admin_registrations_BarUnderbtn = new JMenuItem("Gerer");
 		admin_registrations_BarUnderbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//ACTIONS AU CLICK
