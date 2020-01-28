@@ -1,6 +1,7 @@
 package org.formation.gestionbiblio.model.technical;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import javax.persistence.EntityManager;
@@ -48,7 +49,6 @@ public class DbService {
 	public Bibliotheque getBiblioFromDb() {
 		Bibliotheque dbBiblio = new Bibliotheque();
 		ArrayList<Livre> livres = new ArrayList<Livre>();
-		System.out.println("getBiblioFromDb");
 
 	    Session session = this.sessionFactory.openSession();
 	    String hql = "from org.formation.gestionbiblio.model.business.Bibliotheque$Livre";
@@ -63,7 +63,30 @@ public class DbService {
 			dbBiblio.getLivre().add(livre);
 		}
 	    
-	    System.out.println(dbBiblio.getLivre().get(0).getImgUrl());
 		return dbBiblio;
+	}
+
+	public void synchronizeDbFromXmlBiblio(Bibliotheque biblio) {
+		List<Livre> absentLivres = this.getLivresThatAreNotInDbFromXml(biblio);
+		List<Livre> livres = biblio.getLivre();
+
+	    Session session = this.sessionFactory.openSession();
+	    String hql = "from org.formation.gestionbiblio.model.business.Bibliotheque$Livre";
+	    try { 
+	        livres = (ArrayList<Livre>) session.createQuery(hql).list(); 
+	      } finally { 
+	        session.close(); 
+	      } 
+	    sessionFactory.close();
+	    
+	    for (Livre livre : livres) {
+			//dbBiblio.getLivre().add(livre);
+		}
+	}
+	
+	private List<Livre> getLivresThatAreNotInDbFromXml(Bibliotheque biblio) {
+		List<Livre> livresXml = biblio.getLivre();
+		
+		return null;
 	}
 }

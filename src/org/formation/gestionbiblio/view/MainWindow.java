@@ -792,11 +792,18 @@ public class MainWindow {
     /*
      * Mise en place du boutton synchronize (appelé quand un fichier
      * XML est importé)
+     * + Event Listener pour synchronize la DB depuis le XML
      */
     private void setSynchronizeDbButton() {
     	JButton btnSynchronizeDbFrom = new JButton("Synchronize DB from XML");
 		btnSynchronizeDbFrom.setBounds(499, 27, 189, 29);
 		frame.getContentPane().add(btnSynchronizeDbFrom);
+		
+		btnSynchronizeDbFrom.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(BiblioController.getInstance().getBiblio().getRowCount());
+			}
+		});
     }
     
 	public JTable getTable() {

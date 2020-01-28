@@ -75,11 +75,20 @@ public class BiblioController {
 		return mainWindow;
 	}
 
+	/**
+	 * Met à jour la biblio depuis la base de données
+	 */
 	public void setDbBiblioFromDb() {
 		// TODO REFRESH LA BIBLIO DEPUIS LA DB à CHAQUE GET
 		this.biblio = this.dbService.getBiblioFromDb();
 		this.biblio.fireTableDataChanged();
+	}
+
+	/**
+	 * Synchronisation du la DB depuis les données récupérées du XML
+	 */
+	public void synchronizeDbFromXmlBiblio() {
+		// TODO Auto-generated method stub
 		
-		//return this.dbService.getBiblioFromDb();
 	}
 }
