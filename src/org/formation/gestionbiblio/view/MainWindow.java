@@ -439,9 +439,7 @@ public class MainWindow {
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
 		
-		JButton btnSynchronizeDbFrom = new JButton("Synchronize DB from XML");
-		btnSynchronizeDbFrom.setBounds(499, 27, 189, 29);
-		frame.getContentPane().add(btnSynchronizeDbFrom);
+		
 		
 		if(role > 0) {
 			this.panel = new JPanel();
@@ -521,6 +519,8 @@ public class MainWindow {
 				e.printStackTrace();
 			}
         }
+        
+        setSynchronizeDbButton();
     }
     
     /*
@@ -788,7 +788,17 @@ public class MainWindow {
 			return false;
 		}
     }
-
+    
+    /*
+     * Mise en place du boutton synchronize (appelé quand un fichier
+     * XML est importé)
+     */
+    private void setSynchronizeDbButton() {
+    	JButton btnSynchronizeDbFrom = new JButton("Synchronize DB from XML");
+		btnSynchronizeDbFrom.setBounds(499, 27, 189, 29);
+		frame.getContentPane().add(btnSynchronizeDbFrom);
+    }
+    
 	public JTable getTable() {
 		return table;
 	}
