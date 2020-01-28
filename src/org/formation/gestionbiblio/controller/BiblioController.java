@@ -31,8 +31,8 @@ public class BiblioController {
 			biblioControllerInstance = new BiblioController();
 			biblioControllerInstance.exporteurWordBiblio = new WordBiblio();
 			biblioControllerInstance.biblio = new Bibliotheque();
-			biblioControllerInstance.mainWindow = new MainWindow();
 			biblioControllerInstance.dbService = new DbService();
+			biblioControllerInstance.mainWindow = new MainWindow();
 			try {
 				biblioControllerInstance.authentificator = new Authentificator();
 			} catch (FileNotFoundException e) {
@@ -74,18 +74,12 @@ public class BiblioController {
 	public MainWindow getMainWindow() {
 		return mainWindow;
 	}
-	
-	public void getLivreById(int i) {
-		biblioControllerInstance.dbService.getLivreById(i);
-	}
-	
-	public Bibliotheque getBiblioFromDb() {
-		
-		return null;
-	}
 
-	public Bibliotheque getDbBiblio() {
-		//TODO REFRESH LA BIBLIO DEPUIS LA DB à CHAQUE GET
-		return dbService.getBiblioFromDb();
+	public void setDbBiblioFromDb() {
+		// TODO REFRESH LA BIBLIO DEPUIS LA DB à CHAQUE GET
+		this.biblio = this.dbService.getBiblioFromDb();
+		this.biblio.fireTableDataChanged();
+		
+		//return this.dbService.getBiblioFromDb();
 	}
 }

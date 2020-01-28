@@ -143,7 +143,6 @@ public class MainWindow {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		BiblioController.getInstance().getDbBiblio();
 		ImageIO.setUseCache(false);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -164,6 +163,7 @@ public class MainWindow {
 	 */
 	public MainWindow() {
 		initialize(1);
+		BiblioController.getInstance().setDbBiblioFromDb();
 	}
 
 	/**
@@ -171,6 +171,7 @@ public class MainWindow {
 	 */
 	public MainWindow(int role) {
 		initialize(role);
+		
 	}
 	
 	/**
@@ -178,6 +179,7 @@ public class MainWindow {
 	 */
 	public void initialize(int role) {
 		this.frame = new JFrame();
+		
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -437,6 +439,10 @@ public class MainWindow {
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
 		
+		JButton btnSynchronizeDbFrom = new JButton("Synchronize DB from XML");
+		btnSynchronizeDbFrom.setBounds(499, 27, 189, 29);
+		frame.getContentPane().add(btnSynchronizeDbFrom);
+		
 		if(role > 0) {
 			this.panel = new JPanel();
 			panel.setBackground(Color.LIGHT_GRAY);
@@ -458,9 +464,7 @@ public class MainWindow {
 		this.setRowsEventListener();
 		this.setTypeLivreEventListener();
 		this.setValiderBtnEventListener();
-		this.setAddSuppBtnsEventListeners();	
-		
-					
+		this.setAddSuppBtnsEventListeners();
 	}
 	
 	private void setRowSorter() {
@@ -698,7 +702,6 @@ public class MainWindow {
     	                        
     	                        	//refresh pour récupérer nouvelle image
     	                        	//frame.repaint();
-    	                    	
     	                    }
     	                }
     		        }
@@ -797,5 +800,4 @@ public class MainWindow {
 	public JFrame getFrame() {
 		return frame;
 	}
-	
 }

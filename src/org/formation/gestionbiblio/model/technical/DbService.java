@@ -17,6 +17,7 @@ import org.hibernate.query.Query;
 public class DbService {
 	private Configuration config;
 	protected EntityManager manager;
+	SessionFactory sessionFactory;
 	
 	public DbService() {
 		this.config = new Configuration();
@@ -25,9 +26,8 @@ public class DbService {
 	
 	public void initConfig() {
 		this.config.addClass(Livre.class);
-		System.out.println("config");
+		this.sessionFactory = config.buildSessionFactory();  
 	}
-	
 	
 	public void getLivreById(int i) {
 		SessionFactory sessionFactory = config.buildSessionFactory();
@@ -48,9 +48,9 @@ public class DbService {
 	public Bibliotheque getBiblioFromDb() {
 		Bibliotheque dbBiblio = new Bibliotheque();
 		ArrayList<Livre> livres = new ArrayList<Livre>();
-		
-		SessionFactory sessionFactory = config.buildSessionFactory();
-	    Session session = sessionFactory.openSession();
+		System.out.println("getBiblioFromDb");
+
+	    Session session = this.sessionFactory.openSession();
 	    String hql = "from org.formation.gestionbiblio.model.business.Bibliotheque$Livre";
 	    try { 
 	        livres = (ArrayList<Livre>) session.createQuery(hql).list(); 
@@ -63,6 +63,7 @@ public class DbService {
 			dbBiblio.getLivre().add(livre);
 		}
 	    
+	    System.out.println(dbBiblio.getLivre().get(0).getImgUrl());
 		return dbBiblio;
 	}
 }
