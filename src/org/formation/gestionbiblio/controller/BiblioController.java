@@ -89,8 +89,7 @@ public class BiblioController {
 	 * Synchronisation du la DB depuis les données récupérées du XML
 	 */
 	public void synchronizeDbFromXmlBiblio() {
-		// TODO Auto-generated method stub
-		
+		this.dbService.synchronizeDbFromXmlBiblio(this.biblio);
 	}
 	
 	public void getLivresThatAreNotInDbFromXml() {

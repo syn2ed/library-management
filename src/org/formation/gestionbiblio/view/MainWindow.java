@@ -820,7 +820,7 @@ public class MainWindow {
 		
 		btnSynchronizeDbFrom.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BiblioController.getInstance().getLivresThatAreNotInDbFromXml();
+				BiblioController.getInstance().synchronizeDbFromXmlBiblio();
 			}
 		});
     }

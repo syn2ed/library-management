@@ -71,25 +71,25 @@ public class DbService {
 
 	public void synchronizeDbFromXmlBiblio(Bibliotheque biblio) {
 		List<Livre> absentLivres = this.getLivresThatAreNotInDbFromXml(biblio);
-		List<Livre> livres = biblio.getLivre();
-
 	    this.session = this.sessionFactory.openSession();
-	    String hql = "from org.formation.gestionbiblio.model.business.Bibliotheque$Livre";
-	    try { 
-	        livres = (ArrayList<Livre>) session.createQuery(hql).list(); 
-	      } finally { 
-	        //session.close(); 
-	      } 
-	    //sessionFactory.close();
-	    for (Livre livre : livres) {
-			//dbBiblio.getLivre().add(livre);
+	    
+	    /*
+	    for (Livre livre : absentLivres) {
+	    	livre.getAuteur().setPrenom("prenom");
+	    	session.saveOrUpdate(livre.getAuteur());
+	   		session.saveOrUpdate(livre);
 		}
+		*/
 	}
 	
+	/**
+	 * Récupération des livres qui sont dans le XML mais absent en DB
+	 * @param biblio
+	 * @return
+	 */
 	public List<Livre> getLivresThatAreNotInDbFromXml(Bibliotheque biblio) {
 		List<Livre> livresXml = biblio.getLivre();
 		List<Livre> livresToAddInDb = new ArrayList<Livre>();
-		//boolean isInDb = false;
 		
 		for (Livre livre : livresXml) {
 			String titre = livre.getTitre();
@@ -105,9 +105,6 @@ public class DbService {
 			}
 		}
 		
-		for (Livre livre : livresToAddInDb) {
-			System.out.println(livre.getTitre());
-		}
 		return livresToAddInDb;
 	}
 }
