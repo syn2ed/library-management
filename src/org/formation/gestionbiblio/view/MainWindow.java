@@ -485,6 +485,8 @@ public class MainWindow {
 		this.setTypeLivreEventListener();
 		this.setValiderBtnEventListener();
 		this.setAddSuppBtnsEventListeners();
+		
+		setRowSorter();
 	}
 	
 	private void setRowSorter() {
