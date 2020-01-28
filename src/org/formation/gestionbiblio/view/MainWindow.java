@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
 
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.formation.gestionbiblio.controller.BiblioController;
 import org.formation.gestionbiblio.model.business.Bibliotheque;
 import org.formation.gestionbiblio.model.business.Bibliotheque.Livre;
@@ -201,6 +202,9 @@ public class MainWindow {
 					.getAuthentificator().getUserAuthentified().getUsername()); //logs
 					BiblioController.getInstance().exportBiblioAsWord();
 				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (InvalidFormatException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}

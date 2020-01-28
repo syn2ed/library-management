@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.formation.gestionbiblio.model.business.Bibliotheque;
 import org.formation.gestionbiblio.model.business.WordBiblio;
 import org.formation.gestionbiblio.model.technical.Authentificator;
@@ -52,7 +53,7 @@ public class BiblioController {
 	/*
 	 * Méthode réalisant l'exportation du fichier word depuis l'exporteurWordBiblio
 	 */
-	public void exportBiblioAsWord() throws IOException {
+	public void exportBiblioAsWord() throws IOException, InvalidFormatException {
 		this.exporteurWordBiblio.exportFile();
 	}
 

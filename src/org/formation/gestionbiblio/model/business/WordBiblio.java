@@ -169,12 +169,7 @@ public class WordBiblio {
 						livres.setText(colonne);
 						livres.addCarriageReturn();
 						
-						//URL imgUrl = new URL(BiblioController.getInstance().getBiblio().getLivre().get(i).getImgUrl());
-						//this.img = ImageIO.read(imgUrl);
 						URL monurl = new URL (BiblioController.getInstance().getBiblio().getLivre().get(i).getImgUrl());
-						Image monimg = ImageIO.read(monurl);
-						
-						
 						BufferedImage img = ImageIO.read(monurl);
 						File file = new File("img");
 						ImageIO.write(img, "jpg", file);
