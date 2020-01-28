@@ -69,6 +69,7 @@ public class MainWindow {
 	private JMenuBar menuBar;
 	private JTable table;
 	private JMenu mnFile;
+	private JMenu admin_registrations_Barbtn;
 	private JMenuItem mntmOpenFile;
 	private JMenuItem mntmSave;
 	private JMenuItem mntmSaveAs;
@@ -118,6 +119,7 @@ public class MainWindow {
 	private JMenuItem mntmExportWord;
 	private JMenuItem mntmExit;
 	private JMenuItem mntmInfo;
+	private JMenuItem admin_registrations_BarUnderbtn;
 	
 	public File getFile() {
 		return file;
@@ -174,6 +176,17 @@ public class MainWindow {
 		mnFile = new JMenu("File");
 		menuBar.add(mnFile);
 		
+		admin_registrations_Barbtn = new JMenu("Inscriptions");
+		menuBar.add(admin_registrations_Barbtn);
+		
+		this.admin_registrations_BarUnderbtn = new JMenuItem("Gérer");
+		admin_registrations_BarUnderbtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//ACTIONS AU CLICK
+			}
+		});
+		admin_registrations_Barbtn.add(admin_registrations_BarUnderbtn);
+		
 		this.mntmOpenFile = new JMenuItem("Open file");
 		mntmOpenFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -200,11 +213,13 @@ public class MainWindow {
 				try {
 					BiblioAppLogger.logger.info("File exported by " + BiblioController.getInstance()
 					.getAuthentificator().getUserAuthentified().getUsername()); //logs
-					BiblioController.getInstance().exportBiblioAsWord();
+					try {
+						BiblioController.getInstance().exportBiblioAsWord();
+					} catch (InvalidFormatException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (InvalidFormatException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
