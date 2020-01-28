@@ -42,6 +42,12 @@ public class DbService {
 	      sessionFactory.close();
 	}
 	
+	
+	
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+
 	/**
 	 * Récupération de la biblio depuis la bdd
 	 * @return

@@ -84,6 +84,19 @@ public class AuthWindow {
 		lblNewLabel.setForeground(Color.BLUE);
 		lblNewLabel.setBounds(164, 17, 86, 16);
 		frame.getContentPane().add(lblNewLabel);
+		
+		
+		
+		JButton btnInscription = new JButton("Inscription");
+		btnInscription.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				BiblioController.getInstance().getRegisterWindow().setVisible(true);
+			}
+		});
+		btnInscription.setBounds(309, 227, 117, 26);
+		frame.getContentPane().add(btnInscription);
+		
+		
 	}
 
 	public JFrame getFrame() {

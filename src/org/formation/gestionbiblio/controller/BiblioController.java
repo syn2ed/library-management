@@ -10,7 +10,9 @@ import org.formation.gestionbiblio.model.business.WordBiblio;
 import org.formation.gestionbiblio.model.technical.Authentificator;
 import org.formation.gestionbiblio.model.technical.DbService;
 import org.formation.gestionbiblio.model.technical.XmlParser;
+import org.formation.gestionbiblio.view.AuthWindow;
 import org.formation.gestionbiblio.view.MainWindow;
+import org.formation.gestionbiblio.view.registerWindow;
 
 /*
  * Manager/Controller en singleton
@@ -22,6 +24,8 @@ public class BiblioController {
 	private WordBiblio exporteurWordBiblio;
 	private Authentificator authentificator;
 	private MainWindow mainWindow;
+	private AuthWindow authWindow;
+	private registerWindow registerWindow;
 	private DbService dbService;
 
 	/*
@@ -33,7 +37,15 @@ public class BiblioController {
 			biblioControllerInstance.exporteurWordBiblio = new WordBiblio();
 			biblioControllerInstance.biblio = new Bibliotheque();
 			biblioControllerInstance.dbService = new DbService();
+			biblioControllerInstance.registerWindow = new registerWindow();
+			try {
+				biblioControllerInstance.authWindow = new AuthWindow();
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			biblioControllerInstance.mainWindow = new MainWindow();
+			
 			try {
 				biblioControllerInstance.authentificator = new Authentificator();
 			} catch (FileNotFoundException e) {
@@ -75,6 +87,10 @@ public class BiblioController {
 	public MainWindow getMainWindow() {
 		return mainWindow;
 	}
+	
+	public AuthWindow getAuthWindow() {
+		return authWindow;
+	}
 
 	/**
 	 * Met à jour la biblio depuis la base de données
@@ -92,4 +108,14 @@ public class BiblioController {
 		// TODO Auto-generated method stub
 		
 	}
+
+	public registerWindow getRegisterWindow() {
+		return this.registerWindow;
+	}
+
+	public DbService getDbService() {
+		return dbService;
+	}
+	
+	
 }
