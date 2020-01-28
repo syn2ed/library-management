@@ -10,8 +10,10 @@ import javax.persistence.Persistence;
 
 import org.formation.gestionbiblio.model.business.Bibliotheque;
 import org.formation.gestionbiblio.model.business.Bibliotheque.Livre;
+import org.formation.gestionbiblio.model.business.Bibliotheque.Livre.Auteur;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
@@ -27,10 +29,10 @@ public class DbService {
 	}
 	
 	public void initConfig() {
-		this.config.addClass(Livre.class);
+		this.config.addAnnotatedClass(Livre.class);
+		this.config.addAnnotatedClass(Auteur.class);
 		this.sessionFactory = config.buildSessionFactory(); 
 		this.session = this.sessionFactory.openSession();
-		
 	}
 	
 	public void getLivreById(int i) {
@@ -79,11 +81,21 @@ public class DbService {
 		List<Livre> absentLivres = this.getLivresThatAreNotInDbFromXml(biblio);
 	    this.session = this.sessionFactory.openSession();
 
-	    for (Livre livre : absentLivres) {
-	    	livre.getAuteur().setPrenom("prenom");
-	    	session.saveOrUpdate(livre.getAuteur());
-	   		session.saveOrUpdate(livre);
-		}
+	    Transaction tx = null;
+	    try {
+	        tx = session.beginTransaction();
+	        for (Livre livre : absentLivres) {
+		    	session.save(livre);
+			}
+	        tx.commit(); // Flush happens automatically
+	    }
+	    catch (RuntimeException e) {
+	        tx.rollback();
+	        throw e; // or display error message
+	    }
+	    finally {
+	        session.close();
+	    }
 	}
 	
 	/**

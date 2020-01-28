@@ -8,15 +8,22 @@
 
 package org.formation.gestionbiblio.model.business;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.TableColumnModelListener;
 import javax.swing.table.AbstractTableModel;
@@ -32,8 +39,7 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
-import org.hibernate.annotations.CascadeType;
-
+import javax.persistence.CascadeType;
 
 /**
  * <p>Classe Java pour anonymous complex type.
@@ -204,25 +210,46 @@ public class Bibliotheque extends AbstractTableModel{
         "type",
         "personnePret"
     })
-    public static class Livre {
+    @Entity
+    @Table(name = "livre")
+    public static class Livre implements Serializable{
 
-        @XmlElement(required = true)
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		
+		@XmlTransient
+		@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+		@Column(name = "livre_id")
+		private int livre_id;
+		@XmlElement(required = true)
+		@Column(name = "titre")
         protected String titre;
         @XmlElement(required = true)
+        @OneToOne(cascade = CascadeType.ALL)
+        @JoinColumn(name = "auteur", referencedColumnName = "auteur_id")
         protected Bibliotheque.Livre.Auteur auteur;
         @XmlElement(required = true)
+        @Column(name = "presentation")
         protected String presentation;
         @XmlSchemaType(name = "unsignedShort")
+        @Column(name = "parution")
         protected int parution;
         @XmlSchemaType(name = "unsignedByte")
+        @Column(name = "colonne")
         protected short colonne;
         @XmlSchemaType(name = "unsignedByte")
+        @Column(name = "rangee")
         protected short rangee;
         @XmlSchemaType(name = "string")
+        @Column(name = "imgUrl")
         protected String imgUrl;
         @XmlSchemaType(name = "type")
+        @Column(name = "type")
         protected String type;
         @XmlSchemaType(name = "personnePret")
+        @Column(name = "personnePret")
         protected String personnePret;
 
         /**
@@ -395,11 +422,19 @@ public class Bibliotheque extends AbstractTableModel{
             "nom",
             "prenom"
         })
+        @Entity
+        @Table(name = "auteur")
         public static class Auteur {
 
+        	@XmlTransient
+    		@Column(name = "auteur_id")
+        	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+        	private int auteur_id;
             @XmlElement(required = true)
+            @Column(name = "nom")
             protected String nom;
             @XmlElement(required = true)
+            @Column(name = "prenom")
             protected String prenom;
 
             /**
