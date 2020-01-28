@@ -143,6 +143,7 @@ public class MainWindow {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		BiblioController.getInstance().getDbBiblio();
 		ImageIO.setUseCache(false);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {

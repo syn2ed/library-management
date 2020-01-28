@@ -75,7 +75,17 @@ public class BiblioController {
 		return mainWindow;
 	}
 	
-	public void getLivreById() {
-		biblioControllerInstance.dbService.getLivreById(1);
+	public void getLivreById(int i) {
+		biblioControllerInstance.dbService.getLivreById(i);
+	}
+	
+	public Bibliotheque getBiblioFromDb() {
+		
+		return null;
+	}
+
+	public Bibliotheque getDbBiblio() {
+		//TODO REFRESH LA BIBLIO DEPUIS LA DB à CHAQUE GET
+		return dbService.getBiblioFromDb();
 	}
 }

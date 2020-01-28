@@ -13,5 +13,14 @@
     <property name="imgUrl" type="string" not-null="true" />
     <property name="type" type="string" not-null="true" />
     <property name="personnePret" type="string" not-null="true" />
+    <one-to-one name="auteur" class="org.formation.gestionbiblio.model.business.Bibliotheque$Livre$Auteur"
+			cascade="save-update"></one-to-one>
+  </class>
+  <class name="org.formation.gestionbiblio.model.business.Bibliotheque$Livre$Auteur" table="auteur">
+    <id type="int" column="auteur_id">
+      <generator class="native"/>
+    </id>
+    <property name="nom" type="string" not-null="true" />
+    <property name="prenom" type="string" not-null="true" />
   </class>
 </hibernate-mapping>
