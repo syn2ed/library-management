@@ -597,15 +597,16 @@ public class MainWindow {
 			public void actionPerformed(ActionEvent e) {
 				if(isFormValid()) {
 					table.setValueAt(tf_titre.getText(),table.getSelectedRow(), 0);
-					table.setValueAt(tf_auteur.getText().toString(),table.getSelectedRow(), 1);
-					table.setValueAt(tf_presentation.getText(),table.getSelectedRow(), 2);
-					table.setValueAt(tf_parution.getText().toString(),table.getSelectedRow(), 3);
-					table.setValueAt(tf_colonne.getText(),table.getSelectedRow(), 4);
-					table.setValueAt(tf_rangee.getText().toString(),table.getSelectedRow(), 5);
-					BiblioController.getInstance().getBiblio().setValueAt(tf_imgUrl.getText().toString(),table.getSelectedRow(), 6);
+					table.setValueAt(tf_auteur_prenom.getText().toString(),table.getSelectedRow(), 1);
+					table.setValueAt(tf_auteur.getText().toString(),table.getSelectedRow(), 2);
+					table.setValueAt(tf_presentation.getText(),table.getSelectedRow(), 3);
+					table.setValueAt(tf_parution.getText().toString(),table.getSelectedRow(), 4);
+					table.setValueAt(tf_colonne.getText(),table.getSelectedRow(), 5);
+					table.setValueAt(tf_rangee.getText().toString(),table.getSelectedRow(), 6);
+					BiblioController.getInstance().getBiblio().setValueAt(tf_imgUrl.getText().toString(),table.getSelectedRow(), 7);
 					if(cb_type.getSelectedItem() != null)
-						BiblioController.getInstance().getBiblio().setValueAt(cb_type.getSelectedItem().toString(), table.getSelectedRow(), 7);
-					BiblioController.getInstance().getBiblio().setValueAt(tf_personne.getText(), table.getSelectedRow(), 8);
+						BiblioController.getInstance().getBiblio().setValueAt(cb_type.getSelectedItem().toString(), table.getSelectedRow(), 8);
+					BiblioController.getInstance().getBiblio().setValueAt(tf_personne.getText(), table.getSelectedRow(), 9);
 					
 					logBookEdit(tf_titre.getText(), tf_auteur.getText(), tf_presentation.getText(), tf_parution.getText(), 
 							tf_colonne.getText(), tf_colonne.getText(), tf_rangee.getText(), cb_type.getSelectedItem().toString(), tf_personne.getText());
@@ -722,22 +723,27 @@ public class MainWindow {
         });
     }
     
- // EventListener sur le tableau pour la récupération des valeurs de la ligne sélectionnée pour le formulaire
+    /**
+     * EventListener sur le tableau pour la récupération des valeurs de la ligne sélectionnée
+     *  pour le formulaire
+     */
     private void setRowsEventListener() {
     			table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
     		        public void valueChanged(ListSelectionEvent event) {
     		        	if (table.getSelectedRow() > -1) {
     	                    tf_titre.setText(table.getValueAt(table.getSelectedRow(), 0).toString());
-    	                    tf_auteur.setText(table.getValueAt(table.getSelectedRow(), 1).toString());
-    	                    tf_presentation.setText(table.getValueAt(table.getSelectedRow(), 2).toString());
-    	                    tf_parution.setText(table.getValueAt(table.getSelectedRow(), 3).toString());
-    	                    tf_colonne.setText(table.getValueAt(table.getSelectedRow(), 4).toString());
-    	                    tf_rangee.setText(table.getValueAt(table.getSelectedRow(), 5).toString());
+    	                    if(table.getValueAt(table.getSelectedRow(), 1) != null)
+    	                    	tf_auteur_prenom.setText(table.getValueAt(table.getSelectedRow(), 1).toString());
+    	                    tf_auteur.setText(table.getValueAt(table.getSelectedRow(), 2).toString());
+    	                    tf_presentation.setText(table.getValueAt(table.getSelectedRow(), 3).toString());
+    	                    tf_parution.setText(table.getValueAt(table.getSelectedRow(), 4).toString());
+    	                    tf_colonne.setText(table.getValueAt(table.getSelectedRow(), 5).toString());
+    	                    tf_rangee.setText(table.getValueAt(table.getSelectedRow(), 6).toString());
     	                    tf_imgUrl.setText(BiblioController.getInstance().getBiblio().getLivre().get(table.getSelectedRow()).getImgUrl());
     	                    cb_type.setSelectedItem(BiblioController.getInstance().getBiblio().getLivre().get(table.getSelectedRow()).getType());
     	                    
     	                    if(cb_type.getSelectedItem().toString().matches("Prete|Emprunte"))
-    	                    	tf_personne.setText(table.getValueAt(table.getSelectedRow(), 8).toString());
+    	                    	tf_personne.setText(table.getValueAt(table.getSelectedRow(), 9).toString());
     	                    
     	                    /* Récupération de l'image */
     	                    if(BiblioController.getInstance().getBiblio().getLivre().get(table.getSelectedRow()).getImgUrl() != null) {
@@ -773,6 +779,10 @@ public class MainWindow {
     		    });
     }
     
+    /**
+     * Mise en place des event Listeners sur les boutons + et - pour l'ajout et suppression 
+     * de livre dans le tableau
+     */
     private void setAddSuppBtnsEventListeners() {
     	btn_suppr.addActionListener(new ActionListener(){
 
@@ -781,7 +791,7 @@ public class MainWindow {
             	
                 
             	logBookDeletions(table.getValueAt(table.getSelectedRow(), 0).toString(),
-            			table.getValueAt(table.getSelectedRow(), 1).toString()); // logs
+            			table.getValueAt(table.getSelectedRow(), 2).toString()); // logs
             	BiblioController.getInstance().getBiblio().removeRow(table.getSelectedRow());
             	BiblioController.getInstance().getBiblio().fireTableDataChanged();
             }

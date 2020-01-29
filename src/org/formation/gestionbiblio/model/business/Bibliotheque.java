@@ -103,7 +103,8 @@ public class Bibliotheque extends AbstractTableModel{
 	@XmlTransient
 	private final String[] columnsName = {
 			"Titre",
-	    	"Auteur",
+	    	"Prénom auteur",
+	    	"Nom auteur",
 	    	"Presentation",
 	    	"Parution",
 	    	"Colonne",
@@ -118,7 +119,6 @@ public class Bibliotheque extends AbstractTableModel{
    
     public Bibliotheque() {
     	super();
-    	//this.setColumnIdentifiers(Bibliotheque.columns.values());
     }
 
     /**
@@ -514,14 +514,15 @@ public class Bibliotheque extends AbstractTableModel{
         Object value = null;
         switch (columnIndex) {
             case 0 : value = livre.getTitre(); break;
-            case 1 : value = livre.getAuteur().getNom(); break;
-            case 2 : value = livre.getPresentation(); break;
-            case 3 : value = livre.getParution(); break;
-            case 4 : value = livre.getColonne(); break;
-            case 5 : value = livre.getRangee(); break;
-            case 6 : value = livre.getImgUrl(); break;
-            case 7 : value = livre.getType(); break;
-            case 8 : value = livre.getPersonnePret(); break;
+            case 1 : value = livre.getAuteur().getPrenom(); break;
+            case 2 : value = livre.getAuteur().getNom(); break;
+            case 3 : value = livre.getPresentation(); break;
+            case 4 : value = livre.getParution(); break;
+            case 5 : value = livre.getColonne(); break;
+            case 6 : value = livre.getRangee(); break;
+            case 7 : value = livre.getImgUrl(); break;
+            case 8 : value = livre.getType(); break;
+            case 9 : value = livre.getPersonnePret(); break;
         }
         
         return value;
@@ -537,13 +538,14 @@ public class Bibliotheque extends AbstractTableModel{
         switch (columnIndex) {
             case 0 : livre.setTitre(valuee.toString()); break;
             case 1 : livre.getAuteur().setNom(valuee.toString());
-            case 2 : livre.setPresentation(valuee.toString()); break;
-            case 3 : livre.setParution(Integer.parseInt(valuee.toString())); break;
-            case 4 : livre.setColonne(Short.parseShort((String) valuee)); break;
-            case 5 : livre.setRangee(Short.parseShort((String) valuee)); break;
-            case 6 : livre.setImgUrl((String) valuee); break;
-            case 7 : livre.setType((String) valuee); break;
-            case 8 : livre.setPersonnePret((String) valuee); break;
+            case 2 : livre.getAuteur().setPrenom(valuee.toString());
+            case 3 : livre.setPresentation(valuee.toString()); break;
+            case 4 : livre.setParution(Integer.parseInt(valuee.toString())); break;
+            case 5 : livre.setColonne(Short.parseShort((String) valuee)); break;
+            case 6 : livre.setRangee(Short.parseShort((String) valuee)); break;
+            case 7 : livre.setImgUrl((String) valuee); break;
+            case 8 : livre.setType((String) valuee); break;
+            case 9 : livre.setPersonnePret((String) valuee); break;
         }
 	}
 	
