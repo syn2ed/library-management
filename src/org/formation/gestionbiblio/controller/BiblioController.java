@@ -147,6 +147,12 @@ public class BiblioController {
 	public void validateUsers(List<User> usersValidated) {
 		this.dbService.validateUsers(usersValidated);
 	}
+
+	public void logout() {
+		this.mainWindow.getFrame().setVisible(false);
+		this.authWindow.getFrame().setVisible(true);
+		this.authentificator.refreshUsers();
+	}
 	
 	
 }

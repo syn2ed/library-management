@@ -150,6 +150,7 @@ public class MainWindow {
 	
 	JButton btnNewButton;
 	private RegistrationsManagerWindow registrationsManagerWindow;
+	private JButton btnNewButton_1;
 	
 	public File getFile() {
 		return file;
@@ -542,6 +543,17 @@ public class MainWindow {
 		this.lblDatabaseMode = new JLabel("Database mode");
 		panel_5.add(lblDatabaseMode);
 		lblDatabaseMode.setForeground(new Color(220, 20, 60));
+		
+		btnNewButton_1 = new JButton("Deconnexion");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				BiblioController.getInstance().logout();
+			}
+		});
+		btnNewButton_1.setForeground(Color.DARK_GRAY);
+		btnNewButton_1.setBackground(Color.RED);
+		btnNewButton_1.setBounds(1313, 29, 115, 25);
+		frame.getContentPane().add(btnNewButton_1);
 		
 		if(role > 0) {
 			this.btnNewButton = new JButton("Mise à jour DB");
