@@ -72,6 +72,8 @@ import java.awt.Font;
 import java.awt.Dialog.ModalExclusionType;
 import java.awt.Frame;
 import java.awt.Cursor;
+import java.awt.Dialog;
+
 import javax.swing.border.BevelBorder;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EtchedBorder;
@@ -147,6 +149,7 @@ public class MainWindow {
 	JLabel lblDatabaseMode;
 	
 	JButton btnNewButton;
+	private RegistrationsManagerWindow registrationsManagerWindow;
 	
 	public File getFile() {
 		return file;
@@ -211,13 +214,17 @@ public class MainWindow {
 		mnFile = new JMenu("File");
 		menuBar.add(mnFile);
 		
-		admin_registrations_Barbtn = new JMenu("Inscriptions");
-		menuBar.add(admin_registrations_Barbtn);
+		if(role > 0) {
+			admin_registrations_Barbtn = new JMenu("Inscriptions");
+			menuBar.add(admin_registrations_Barbtn);
+		}
+		
 		
 		this.admin_registrations_BarUnderbtn = new JMenuItem("Gerer");
 		admin_registrations_BarUnderbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//ACTIONS AU CLICK
+				registrationsManagerWindow = new RegistrationsManagerWindow();
+				registrationsManagerWindow.getFrame().setVisible(true);
 			}
 		});
 		admin_registrations_Barbtn.add(admin_registrations_BarUnderbtn);
@@ -322,13 +329,13 @@ public class MainWindow {
 		
 		scrollPane.setViewportView(table);
 		
-		//if(role > 0) {
+		if(role > 0) {
 			this.formulairePanel = new JPanel();
 			formulairePanel.setBorder(new LineBorder(Color.PINK, 1, true));
 			formulairePanel.setBackground(Color.LIGHT_GRAY);
 			formulairePanel.setBounds(0, 277, 804, 210);
 			frame.getContentPane().add(formulairePanel);
-		//}
+		}
 			
 		textField_1 = new JTextField();
 		textField_1.setColumns(10);
@@ -536,16 +543,19 @@ public class MainWindow {
 		panel_5.add(lblDatabaseMode);
 		lblDatabaseMode.setForeground(new Color(220, 20, 60));
 		
-		this.btnNewButton = new JButton("Mise à jour DB");
-		btnNewButton.setBackground(UIManager.getColor("Button.select"));
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				BiblioController.getInstance().updateDbBiblio();
-				JOptionPane.showMessageDialog(null, "La base de données est à jour.");
-			}
-		});
-		btnNewButton.setBounds(667, 499, 125, 25);
-		frame.getContentPane().add(btnNewButton);
+		if(role > 0) {
+			this.btnNewButton = new JButton("Mise à jour DB");
+			btnNewButton.setBackground(UIManager.getColor("Button.select"));
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					BiblioController.getInstance().updateDbBiblio();
+					JOptionPane.showMessageDialog(null, "La base de données est à jour.");
+				}
+			});
+			btnNewButton.setBounds(667, 499, 125, 25);
+			frame.getContentPane().add(btnNewButton);
+		}
+		
 		/*
 		 * Mise en place de tous les EventListeners
 		 */

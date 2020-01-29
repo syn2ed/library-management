@@ -139,6 +139,14 @@ public class BiblioController {
 	public void refreshUsers() {
 		this.authentificator.refreshUsers();
 	}
+
+	public List<User> getUsersWaitingForValidation() {
+		return this.dbService.getUsersWaitingForValidation();
+	}
+
+	public void validateUsers(List<User> usersValidated) {
+		this.dbService.validateUsers(usersValidated);
+	}
 	
 	
 }

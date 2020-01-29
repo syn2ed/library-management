@@ -208,4 +208,51 @@ public class DbService {
 			BiblioController.getInstance().refreshUsers();
 		}
 	}
+
+	public List<User> getUsersWaitingForValidation() {
+		ArrayList<User> users = new ArrayList<User>();
+		String hql = "from org.formation.gestionbiblio.model.business.User u where u.isValidate = 0";
+
+		this.session = this.sessionFactory.openSession();
+
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			users = (ArrayList<User>) session.createQuery(hql).getResultList();
+			tx.commit(); // Flush happens automatically
+		} catch (RuntimeException e) {
+			tx.rollback();
+			throw e; // or display error message
+		} finally {
+			session.close();
+		}
+
+		return users;
+	}
+
+	public void validateUsers(List<User> usersValidated) {
+		List<User> usersValidatedByAdmin = usersValidated;
+		
+		
+		for (User user : usersValidatedByAdmin) {
+			user.setValidate(true);
+		}
+		
+		this.session = this.sessionFactory.openSession();
+
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			for (User user : usersValidatedByAdmin) {
+				session.update(user);
+			}
+			tx.commit(); // Flush happens automatically
+		} catch (RuntimeException e) {
+			tx.rollback();
+			throw e; // or display error message
+		} finally {
+			session.close();
+			BiblioController.getInstance().refreshUsers();
+		}
+	}
 }
