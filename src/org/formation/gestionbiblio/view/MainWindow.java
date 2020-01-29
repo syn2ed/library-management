@@ -152,6 +152,8 @@ public class MainWindow {
 	private RegistrationsManagerWindow registrationsManagerWindow;
 	private JButton btnNewButton_1;
 	
+	private AboutWindow aboutWindow;
+	
 	public File getFile() {
 		return file;
 	}
@@ -201,6 +203,7 @@ public class MainWindow {
 	 * Initialize the contents of the frame.
 	 */
 	public void initialize(int role) {
+		this.aboutWindow = new AboutWindow();
 		this.isXml = false;
 		this.frame = new JFrame();
 		frame.setBounds(new Rectangle(0, 0, 2000, 2000));
@@ -298,7 +301,7 @@ public class MainWindow {
 		mntmInfo = new JMenuItem("Info");
 		mntmInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Application de gestion de bibliothèque réalisée par Rémi, Mehdi & Ayoub");
+				aboutWindow.getFrame().setVisible(true);
 			}
 		});
 		mnAbout.add(mntmInfo);
