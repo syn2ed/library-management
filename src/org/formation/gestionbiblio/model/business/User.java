@@ -71,4 +71,13 @@ public class User implements Serializable{
 	public void setValidate(boolean validate) {
 		this.isValidate = validate;
 	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
 }

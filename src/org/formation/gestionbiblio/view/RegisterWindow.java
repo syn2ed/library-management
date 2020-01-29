@@ -115,27 +115,13 @@ public class RegisterWindow {
 		formulairePanel.add(btnDemanderLinscription);
 		btnDemanderLinscription.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(tf_password_repeat.getText().equals(tf_password.getText())) {
+				if(BiblioController.getInstance().checkIfUserExist(tf_email.getText())) {
+					JOptionPane.showMessageDialog(null, "Email déjà existant");
+				} else if(tf_password_repeat.getText().equals(tf_password.getText())) {
 					BiblioController.getInstance().registerUser(tf_id.getText(), tf_password.getText(), tf_email.getText());
 					
 					JOptionPane.showMessageDialog(null, "La demande de creation de compte a ete envoyée !");
 					BiblioController.getInstance().getRegisterWindow().setVisible(false);
-					
-					/*
-					Session session = BiblioController.getInstance().getDbService().getSessionFactory().openSession();
-			        session.beginTransaction();
-			        
-			        //Add new Employee object
-			        User user = new User();
-			        user.setUsername("usernamea");
-			        user.setPassword("mdpa");
-			         
-			        //Save the employee in database
-			        session.save(user);
-			 
-			        //Commit the transaction
-			        session.getTransaction().commit();
-					*/
 				} else {
 					JOptionPane.showMessageDialog(null, "Deux mots de passe differents ont ete saisis");
 				}

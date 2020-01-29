@@ -153,6 +153,15 @@ public class BiblioController {
 		this.authWindow.getFrame().setVisible(true);
 		this.authentificator.refreshUsers();
 	}
+
+	public boolean checkIfUserExist(String tf_email) {
+		for (User user : this.dbService.getDbUsers()) {
+			if(user.getEmail().equals(tf_email)) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	
 }
