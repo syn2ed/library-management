@@ -23,24 +23,13 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
 public class Authentificator {
-	private String usersFilePath = "Users.json";
 	private List<User> users;
 	private Boolean isAuthenticated = false;
 	private Boolean isValidated = false;
 	private User userAuthentified;
 	
 	public Authentificator() throws FileNotFoundException {
-		//this.users = this.parseUsers(usersFilePath);
 		this.users = BiblioController.getInstance().getDbUsers();
-	}
-
-	private List<User> parseUsers(String usersFilePath) throws FileNotFoundException {
-		Gson gson = new Gson();
-		BufferedReader br = new BufferedReader(new FileReader(this.usersFilePath));
-		Type type = new TypeToken<List<User>>(){}.getType();
-		List<User> models = gson.fromJson(br, type);
-		
-		return models;
 	}
 
 	public boolean checkUser(String username, String password) {
@@ -63,5 +52,4 @@ public class Authentificator {
 	public User getUserAuthentified() {
 		return userAuthentified;
 	}
-	
 }
