@@ -324,6 +324,7 @@ public class MainWindow {
 		
 		//if(role > 0) {
 			this.formulairePanel = new JPanel();
+			formulairePanel.setBorder(new LineBorder(Color.PINK, 1, true));
 			formulairePanel.setBackground(Color.LIGHT_GRAY);
 			formulairePanel.setBounds(0, 277, 804, 210);
 			frame.getContentPane().add(formulairePanel);

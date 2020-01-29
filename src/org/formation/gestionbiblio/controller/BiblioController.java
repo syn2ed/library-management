@@ -12,7 +12,7 @@ import org.formation.gestionbiblio.model.technical.DbService;
 import org.formation.gestionbiblio.model.technical.XmlParser;
 import org.formation.gestionbiblio.view.AuthWindow;
 import org.formation.gestionbiblio.view.MainWindow;
-import org.formation.gestionbiblio.view.registerWindow;
+import org.formation.gestionbiblio.view.RegisterWindow;
 
 /*
  * Manager/Controller en singleton
@@ -25,7 +25,7 @@ public class BiblioController {
 	private Authentificator authentificator;
 	private MainWindow mainWindow;
 	private AuthWindow authWindow;
-	private registerWindow registerWindow;
+	private RegisterWindow registerWindow;
 	private DbService dbService;
 
 	/*
@@ -37,7 +37,7 @@ public class BiblioController {
 			biblioControllerInstance.exporteurWordBiblio = new WordBiblio();
 			biblioControllerInstance.biblio = new Bibliotheque();
 			biblioControllerInstance.dbService = new DbService();
-			biblioControllerInstance.registerWindow = new registerWindow();
+			biblioControllerInstance.registerWindow = new RegisterWindow();
 			try {
 				biblioControllerInstance.authWindow = new AuthWindow();
 			} catch (FileNotFoundException e1) {
@@ -112,7 +112,7 @@ public class BiblioController {
 		this.dbService.getLivresThatAreNotInDbFromBiblio(this.biblio);
 	}
 
-	public registerWindow getRegisterWindow() {
+	public RegisterWindow getRegisterWindow() {
 		return this.registerWindow;
 	}
 
