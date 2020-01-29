@@ -18,6 +18,8 @@ import org.hibernate.Session;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+
 import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
@@ -27,10 +29,11 @@ import java.awt.Rectangle;
 public class RegisterWindow {
 
 	private JFrame frame;
-	private JTextField tf_password_repeat;
+	
 	private JTextField tf_id;
 	private JTextField tf_email;
-	private JTextField tf_password;
+	private JPasswordField tf_password;
+	private JPasswordField tf_password_repeat;
 
 	/**
 	 * Create the application.
@@ -68,14 +71,16 @@ public class RegisterWindow {
 		lblPassword.setBounds(20, 12, 59, 15);
 		panel_2.add(lblPassword);
 		
-		tf_password_repeat = new JTextField();
+		tf_password_repeat = new JPasswordField();
 		tf_password_repeat.setColumns(10);
 		tf_password_repeat.setBounds(102, 48, 148, 19);
+		tf_password_repeat.setEchoChar('*');
 		panel_2.add(tf_password_repeat);
 		
-		tf_password = new JTextField();
+		tf_password = new JPasswordField();
 		tf_password.setColumns(10);
 		tf_password.setBounds(102, 8, 147, 19);
+		tf_password.setEchoChar('*');
 		panel_2.add(tf_password);
 		
 		JLabel lblRepeat = new JLabel("Repeat");
