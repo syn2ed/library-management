@@ -22,130 +22,146 @@ public class DbService {
 	protected EntityManager manager;
 	private SessionFactory sessionFactory;
 	private Session session;
-	
+
 	public DbService() {
 		this.config = new Configuration();
 		this.initConfig();
 	}
-	
+
 	public void initConfig() {
 		this.config.addAnnotatedClass(Livre.class);
 		this.config.addAnnotatedClass(Auteur.class);
 		this.sessionFactory = config.buildSessionFactory();
 	}
-	
+
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
 
 	/**
 	 * Récupération de la biblio depuis la bdd
+	 * 
 	 * @return
 	 */
 	public Bibliotheque getBiblioFromDb() {
 		Bibliotheque dbBiblio = new Bibliotheque();
 		ArrayList<Livre> livres = new ArrayList<Livre>();
-	    String hql = "from org.formation.gestionbiblio.model.business.Bibliotheque$Livre";
-	    
-	    this.session = this.sessionFactory.openSession();
+		String hql = "from org.formation.gestionbiblio.model.business.Bibliotheque$Livre";
 
-	    Transaction tx = null;
-	    try {
-	        tx = session.beginTransaction();
-	        livres = (ArrayList<Livre>) session.createQuery(hql).list(); 
-	        tx.commit(); // Flush happens automatically
-	    }
-	    catch (RuntimeException e) {
-	        tx.rollback();
-	        throw e; // or display error message
-	    }
-	    finally {
-	        session.close();
-	    }
-	    
-	    for (Livre livre : livres) {
+		this.session = this.sessionFactory.openSession();
+
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			livres = (ArrayList<Livre>) session.createQuery(hql).list();
+			tx.commit(); // Flush happens automatically
+		} catch (RuntimeException e) {
+			tx.rollback();
+			throw e; // or display error message
+		} finally {
+			session.close();
+		}
+
+		for (Livre livre : livres) {
 			dbBiblio.getLivre().add(livre);
 		}
-	    
+
 		return dbBiblio;
 	}
 
 	public void synchronizeDbFromXmlBiblio(Bibliotheque biblio) {
-		List<Livre> absentLivres = this.getLivresThatAreNotInDbFromXml(biblio);
-	    this.session = this.sessionFactory.openSession();
+		List<Livre> absentLivres = this.getLivresThatAreNotInDbFromBiblio(biblio);
+		this.session = this.sessionFactory.openSession();
 
-	    Transaction tx = null;
-	    try {
-	        tx = session.beginTransaction();
-	        for (Livre livre : absentLivres) {
-		    	session.save(livre);
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			for (Livre livre : absentLivres) {
+				session.save(livre);
 			}
-	        tx.commit(); // Flush happens automatically
-	    }
-	    catch (RuntimeException e) {
-	        tx.rollback();
-	        throw e; // or display error message
-	    }
-	    finally {
-	        session.close();
-	    }
+			tx.commit(); // Flush happens automatically
+		} catch (RuntimeException e) {
+			tx.rollback();
+			throw e; // or display error message
+		} finally {
+			session.close();
+		}
 	}
-	
+
 	/**
-	 * Récupération des livres qui sont dans le XML mais absent en DB
+	 * Récupération des livres qui sont dans la biblio passée en paramètre mais
+	 * absent en DB
+	 * 
 	 * @param biblio
 	 * @return
 	 */
-	public List<Livre> getLivresThatAreNotInDbFromXml(Bibliotheque biblio) {
-		List<Livre> livresXml = biblio.getLivre();
+	public List<Livre> getLivresThatAreNotInDbFromBiblio(Bibliotheque biblio) {
+		List<Livre> livres = biblio.getLivre();
 		List<Livre> livresToAddInDb = new ArrayList<Livre>();
-	
+
 		this.session = this.sessionFactory.openSession();
-	    Transaction tx = null;
-	    
-	    try {
-	        tx = session.beginTransaction();
-	        for (Livre livre : livresXml) {
+		Transaction tx = null;
+
+		try {
+			tx = this.session.beginTransaction();
+			for (Livre livre : livres) {
 				String titre = livre.getTitre();
-				
-				Query query = session
-						.createQuery("select l from org.formation.gestionbiblio.model.business.Bibliotheque$Livre l where l.titre = " 
-								+ " :title").setParameter("title", titre);
-				
-				if(query.getResultList().size() == 0) {
+
+				Query query = session.createQuery(
+						"select l from org.formation.gestionbiblio.model.business.Bibliotheque$Livre l where l.titre = "
+								+ " :title")
+						.setParameter("title", titre);
+
+				if (query.getResultList().size() == 0) {
 					livresToAddInDb.add(livre);
 				}
 			}
-	        tx.commit(); // Flush happens automatically
-	    }
-	    catch (RuntimeException e) {
-	        tx.rollback();
-	        throw e; // or display error message
-	    }
-	    finally {
-	        session.close();
-	    }
-	    
+			tx.commit(); // Flush happens automatically
+		} catch (RuntimeException e) {
+			tx.rollback();
+			throw e; // or display error message
+		} finally {
+			session.close();
+		}
+
 		return livresToAddInDb;
 	}
 
 	public void updateDbBiblio(List<Livre> livres) {
 		this.session = this.sessionFactory.openSession();
 
-	    Transaction tx = null;
-	    try {
-	        tx = session.beginTransaction();
-	        for (Livre livre : livres) {
-		    	session.saveOrUpdate(livre);
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			for (Livre livre : livres) {
+				session.saveOrUpdate(livre);
 			}
-	        tx.commit(); // Flush happens automatically
-	    }
-	    catch (RuntimeException e) {
-	        tx.rollback();
-	        throw e; // or display error message
-	    }
-	    finally {
-	        session.close();
-	    }
+
+			List<Livre> livresToDelete = new ArrayList<Livre>();
+			List<Livre> dbLivres = new ArrayList<Livre>();
+
+			Query query = session.createQuery("from org.formation.gestionbiblio.model.business.Bibliotheque$Livre");
+			dbLivres = (List<Livre>) query.getResultList();
+
+			for (Livre livre : dbLivres) {
+				boolean isInCurrentBiblio = false;
+
+				if (livres.contains(livre))
+					isInCurrentBiblio = true;
+
+				if (!isInCurrentBiblio) {
+					livresToDelete.add(livre);
+				}
+			}
+			for (Livre livre : livresToDelete) {
+				session.remove(livre);
+			}
+			tx.commit(); // Flush happens automatically
+		} catch (RuntimeException e) {
+			tx.rollback();
+			throw e; // or display error message
+		} finally {
+			session.close();
+		}
 	}
 }

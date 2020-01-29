@@ -109,7 +109,7 @@ public class BiblioController {
 	}
 	
 	public void getLivresThatAreNotInDbFromXml() {
-		this.dbService.getLivresThatAreNotInDbFromXml(this.biblio);
+		this.dbService.getLivresThatAreNotInDbFromBiblio(this.biblio);
 	}
 
 	public registerWindow getRegisterWindow() {
