@@ -142,6 +142,8 @@ public class MainWindow {
 	private JMenuItem admin_registrations_BarUnderbtn;
 	private JTextField tf_auteur_prenom;
 	JPanel panel_personne;
+	private boolean isXml;
+	JLabel lblDatabaseMode;
 	
 	public File getFile() {
 		return file;
@@ -192,6 +194,7 @@ public class MainWindow {
 	 * Initialize the contents of the frame.
 	 */
 	public void initialize(int role) {
+		this.isXml = false;
 		this.frame = new JFrame();
 		frame.setBounds(new Rectangle(0, 0, 2000, 2000));
 		frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -514,12 +517,18 @@ public class MainWindow {
 			btn_suppr.setBounds(12, 111, 71, 40);
 			panel.add(btn_suppr);
 			
-			JLabel label_1_1 = new JLabel("MES LIVRES");
-			label_1_1.setFont(new Font("Helvetica", Font.BOLD, 26));
-			label_1_1.setBounds(651, 34, 156, 36);
-			frame.getContentPane().add(label_1_1);
+			
 		}
 		
+		JLabel label_1_1 = new JLabel("MES LIVRES");
+		label_1_1.setFont(new Font("Helvetica", Font.BOLD, 26));
+		label_1_1.setBounds(651, 34, 156, 36);
+		frame.getContentPane().add(label_1_1);
+		
+		this.lblDatabaseMode = new JLabel("Database mode");
+		lblDatabaseMode.setForeground(Color.RED);
+		lblDatabaseMode.setBounds(679, 69, 102, 15);
+		frame.getContentPane().add(lblDatabaseMode);
 		/*
 		 * Mise en place de tous les EventListeners
 		 */
@@ -578,6 +587,7 @@ public class MainWindow {
             	this.file = chooser.getSelectedFile(); // stockage du fichier ouvert
             	BiblioController.getInstance().setBiblio(chooser.getSelectedFile()); // MAJ de la biblio depuis le fichier importé
             	this.table.setModel(BiblioController.getInstance().getBiblio()); //MAJ du tableau côté vue depuis la biblio côté model métier
+            	this.switchMode(true);
             	setRowSorter();
             	setSearchFieldEventListener();
             } catch (Exception e) {
@@ -589,7 +599,12 @@ public class MainWindow {
         setSynchronizeDbButton();
     }
     
-    /*
+    private void switchMode(boolean b) {
+		this.isXml = b;
+		this.lblDatabaseMode.setText("XML mode");
+	}
+
+	/*
      * EventListener sur le bouton valider pour mettre à jour les valeurs du tableau depuis le form
      */
     private void setValiderBtnEventListener() {
@@ -677,7 +692,7 @@ public class MainWindow {
     private boolean isRangeeValid() {
     	try {
     		int rangee = Integer.parseInt(this.tf_rangee.getText());
-    		if(rangee < 6 && rangee >= 0)
+    		if(rangee < 8 && rangee >= 0)
     			return true;
     		else
     			JOptionPane.showMessageDialog(null, "Le champ rangee doit contenir un chiffre de 0 à 7");
@@ -764,7 +779,8 @@ public class MainWindow {
     	    						}
     	                        	
     	                        	lblNewLabel.removeAll();
-    	                        	lblNewLabel.setIcon(new ImageIcon(img.getScaledInstance(200, 200, Image.SCALE_DEFAULT)));
+    	                        	if(img != null)
+    	                        		lblNewLabel.setIcon(new ImageIcon(img.getScaledInstance(200, 200, Image.SCALE_DEFAULT)));
     	                        	
     	                    	}
     	                    	else {
