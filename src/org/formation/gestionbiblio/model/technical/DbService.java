@@ -31,23 +31,8 @@ public class DbService {
 	public void initConfig() {
 		this.config.addAnnotatedClass(Livre.class);
 		this.config.addAnnotatedClass(Auteur.class);
-		this.sessionFactory = config.buildSessionFactory(); 
-		this.session = this.sessionFactory.openSession();
+		this.sessionFactory = config.buildSessionFactory();
 	}
-	
-	public void getLivreById(int i) {
-		SessionFactory sessionFactory = config.buildSessionFactory();
-	    Session session = sessionFactory.openSession();
-	    try { 
-	        Livre livre = (Livre) session.load(Livre.class, new Integer(1)); 
-	        System.out.println(livre.getAuteur().getNom()); 
-	      } finally { 
-	        //session.close(); 
-	      } 
-	      //sessionFactory.close();
-	}
-	
-	
 	
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
@@ -60,15 +45,23 @@ public class DbService {
 	public Bibliotheque getBiblioFromDb() {
 		Bibliotheque dbBiblio = new Bibliotheque();
 		ArrayList<Livre> livres = new ArrayList<Livre>();
-
-	    Session session = this.sessionFactory.openSession();
 	    String hql = "from org.formation.gestionbiblio.model.business.Bibliotheque$Livre";
-	    try { 
+	    
+	    this.session = this.sessionFactory.openSession();
+
+	    Transaction tx = null;
+	    try {
+	        tx = session.beginTransaction();
 	        livres = (ArrayList<Livre>) session.createQuery(hql).list(); 
-	      } finally { 
-	        //session.close(); 
-	      } 
-	    //sessionFactory.close();
+	        tx.commit(); // Flush happens automatically
+	    }
+	    catch (RuntimeException e) {
+	        tx.rollback();
+	        throw e; // or display error message
+	    }
+	    finally {
+	        session.close();
+	    }
 	    
 	    for (Livre livre : livres) {
 			dbBiblio.getLivre().add(livre);
@@ -106,21 +99,33 @@ public class DbService {
 	public List<Livre> getLivresThatAreNotInDbFromXml(Bibliotheque biblio) {
 		List<Livre> livresXml = biblio.getLivre();
 		List<Livre> livresToAddInDb = new ArrayList<Livre>();
-		
-		for (Livre livre : livresXml) {
-			String titre = livre.getTitre();
-			
-			this.sessionFactory.openSession();
-			
-			Query query = session
-					.createQuery("select l from org.formation.gestionbiblio.model.business.Bibliotheque$Livre l where l.titre = " 
-							+ " :title").setParameter("title", titre);
-			
-			if(query.getResultList().size() == 0) {
-				livresToAddInDb.add(livre);
+	
+		this.session = this.sessionFactory.openSession();
+	    Transaction tx = null;
+	    
+	    try {
+	        tx = session.beginTransaction();
+	        for (Livre livre : livresXml) {
+				String titre = livre.getTitre();
+				
+				Query query = session
+						.createQuery("select l from org.formation.gestionbiblio.model.business.Bibliotheque$Livre l where l.titre = " 
+								+ " :title").setParameter("title", titre);
+				
+				if(query.getResultList().size() == 0) {
+					livresToAddInDb.add(livre);
+				}
 			}
-		}
-		
+	        tx.commit(); // Flush happens automatically
+	    }
+	    catch (RuntimeException e) {
+	        tx.rollback();
+	        throw e; // or display error message
+	    }
+	    finally {
+	        session.close();
+	    }
+	    
 		return livresToAddInDb;
 	}
 }
