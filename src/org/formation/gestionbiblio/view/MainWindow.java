@@ -475,6 +475,7 @@ public class MainWindow {
 		label_2.setBounds(22, 10, 30, 15);
 		panel_1.add(label_2);
 		this.cb_type = new JComboBox(types);
+		this.cb_type.setSelectedIndex(1);
 		cb_type.setBounds(71, 5, 115, 24);
 		panel_1.add(cb_type);
 		
