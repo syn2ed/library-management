@@ -77,6 +77,8 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import java.awt.Rectangle;
+import net.miginfocom.swing.MigLayout;
+import javax.swing.UIManager;
 
 public class MainWindow {
 
@@ -480,7 +482,8 @@ public class MainWindow {
 		tf_personne.setColumns(10);
 		
 		panel_img = new JPanel();
-		panel_img.setBounds(1200, 400, 200, 280);
+		panel_img.setBackground(new Color(128, 128, 128));
+		panel_img.setBounds(923, 277, 212, 210);
 		frame.getContentPane().add(panel_img);
 		panel_img.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
@@ -525,10 +528,15 @@ public class MainWindow {
 		label_1_1.setBounds(651, 34, 156, 36);
 		frame.getContentPane().add(label_1_1);
 		
+		JPanel panel_5 = new JPanel();
+		panel_5.setBackground(UIManager.getColor("OptionPane.foreground"));
+		panel_5.setBounds(651, 82, 156, 26);
+		frame.getContentPane().add(panel_5);
+		panel_5.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
 		this.lblDatabaseMode = new JLabel("Database mode");
-		lblDatabaseMode.setForeground(Color.RED);
-		lblDatabaseMode.setBounds(679, 69, 102, 15);
-		frame.getContentPane().add(lblDatabaseMode);
+		panel_5.add(lblDatabaseMode);
+		lblDatabaseMode.setForeground(new Color(220, 20, 60));
 		/*
 		 * Mise en place de tous les EventListeners
 		 */
@@ -587,7 +595,7 @@ public class MainWindow {
             	this.file = chooser.getSelectedFile(); // stockage du fichier ouvert
             	BiblioController.getInstance().setBiblio(chooser.getSelectedFile()); // MAJ de la biblio depuis le fichier importé
             	this.table.setModel(BiblioController.getInstance().getBiblio()); //MAJ du tableau côté vue depuis la biblio côté model métier
-            	this.switchMode(true);
+            	this.switchMode(true); //passage au mode XML
             	setRowSorter();
             	setSearchFieldEventListener();
             } catch (Exception e) {
