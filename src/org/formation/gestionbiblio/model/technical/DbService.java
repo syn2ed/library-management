@@ -2,15 +2,11 @@ package org.formation.gestionbiblio.model.technical;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 import org.formation.gestionbiblio.model.business.Bibliotheque;
 import org.formation.gestionbiblio.model.business.Bibliotheque.Livre;
 import org.formation.gestionbiblio.model.business.Bibliotheque.Livre.Auteur;
+import org.formation.gestionbiblio.model.business.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -19,7 +15,6 @@ import org.hibernate.query.Query;
 
 public class DbService {
 	private Configuration config;
-	protected EntityManager manager;
 	private SessionFactory sessionFactory;
 	private Session session;
 
@@ -31,6 +26,7 @@ public class DbService {
 	public void initConfig() {
 		this.config.addAnnotatedClass(Livre.class);
 		this.config.addAnnotatedClass(Auteur.class);
+		this.config.addAnnotatedClass(User.class);
 		this.sessionFactory = config.buildSessionFactory();
 	}
 
@@ -163,5 +159,26 @@ public class DbService {
 		} finally {
 			session.close();
 		}
+	}
+
+	public List<User> getDbUsers() {
+		ArrayList<User> users = new ArrayList<User>();
+		String hql = "from org.formation.gestionbiblio.model.business.User";
+
+		this.session = this.sessionFactory.openSession();
+
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			users = (ArrayList<User>) session.createQuery(hql).getResultList();
+			tx.commit(); // Flush happens automatically
+		} catch (RuntimeException e) {
+			tx.rollback();
+			throw e; // or display error message
+		} finally {
+			session.close();
+		}
+
+		return users;
 	}
 }

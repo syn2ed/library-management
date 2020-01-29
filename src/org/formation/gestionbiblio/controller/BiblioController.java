@@ -3,9 +3,11 @@ package org.formation.gestionbiblio.controller;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.formation.gestionbiblio.model.business.Bibliotheque;
+import org.formation.gestionbiblio.model.business.User;
 import org.formation.gestionbiblio.model.business.WordBiblio;
 import org.formation.gestionbiblio.model.technical.Authentificator;
 import org.formation.gestionbiblio.model.technical.DbService;
@@ -122,6 +124,10 @@ public class BiblioController {
 
 	public void updateDbBiblio() {
 		this.dbService.updateDbBiblio(this.biblio.getLivre());
+	}
+
+	public List<User> getDbUsers() {
+		return this.dbService.getDbUsers();
 	}
 	
 	
