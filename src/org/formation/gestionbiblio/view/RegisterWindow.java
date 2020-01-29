@@ -3,6 +3,8 @@ package org.formation.gestionbiblio.view;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -115,15 +117,25 @@ public class RegisterWindow {
 		formulairePanel.add(btnDemanderLinscription);
 		btnDemanderLinscription.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(BiblioController.getInstance().checkIfUserExist(tf_email.getText())) {
+				String regex = "^(.+)@(.+)$";
+				Pattern pattern = Pattern.compile(regex);
+				//Matcher matcher;
+				Matcher matcher = pattern.matcher(tf_email.getText());
+				
+				if(tf_email.getText().isEmpty() || tf_id.getText().isEmpty() || tf_password.getText().isEmpty()
+						|| tf_password_repeat.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Merci de compléter tous les champs");
+				} else if(BiblioController.getInstance().checkIfUserExist(tf_email.getText())) {
 					JOptionPane.showMessageDialog(null, "Email déjà existant");
-				} else if(tf_password_repeat.getText().equals(tf_password.getText())) {
-					BiblioController.getInstance().registerUser(tf_id.getText(), tf_password.getText(), tf_email.getText());
+				} else if(!tf_password_repeat.getText().equals(tf_password.getText())) {
+					JOptionPane.showMessageDialog(null, "Deux mots de passe differents ont ete saisis");
 					
+				} else if (!matcher.matches()) {
+					JOptionPane.showMessageDialog(null, "Email incorrect. Exemple d'e-mail: mehdi@remi.fr");
+				} else {
+					BiblioController.getInstance().registerUser(tf_id.getText(), tf_password.getText(), tf_email.getText());
 					JOptionPane.showMessageDialog(null, "La demande de creation de compte a ete envoyée !");
 					BiblioController.getInstance().getRegisterWindow().setVisible(false);
-				} else {
-					JOptionPane.showMessageDialog(null, "Deux mots de passe differents ont ete saisis");
 				}
 			}
 		});
