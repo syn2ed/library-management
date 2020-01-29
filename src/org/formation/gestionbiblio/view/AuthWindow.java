@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.awt.FlowLayout;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 import javax.swing.JTextField;
 
@@ -23,6 +24,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
 import java.awt.Color;
+import java.util.List;
 
 public class AuthWindow {
 
@@ -68,11 +70,18 @@ public class AuthWindow {
 		JButton btnConnexion = new JButton("Connexion");
 		btnConnexion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(BiblioController.getInstance().getAuthentificator().checkUser(textField.getText(), textField_1.getText())) {
+				List<Boolean> authResp = BiblioController.getInstance().getAuthentificator().checkUser(textField.getText(), textField_1.getText());
+				
+				if(authResp.get(0) && authResp.get(1)) {
 					JOptionPane.showMessageDialog(null, "Hello " + BiblioController.getInstance().getAuthentificator().getUserAuthentified().getUsername() + "!");
 					BiblioController.getInstance().getMainWindow().initialize(BiblioController.getInstance().getAuthentificator().getUserAuthentified().getRole());
 					BiblioController.getInstance().getMainWindow().getFrame().setVisible(true);
-				} else {
+				} 
+				else if (authResp.get(0) && !authResp.get(1)) {
+					JOptionPane.showMessageDialog(null, "Compte non validé. Veuillez contacter"
+							+ " un administrateur pour l'activation de celui-ci.");
+				}
+				else {
 					JOptionPane.showMessageDialog(null, "Identifiants incorrects");
 				}
 			}

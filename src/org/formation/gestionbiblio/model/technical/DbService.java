@@ -3,6 +3,9 @@ package org.formation.gestionbiblio.model.technical;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JTextField;
+
+import org.formation.gestionbiblio.controller.BiblioController;
 import org.formation.gestionbiblio.model.business.Bibliotheque;
 import org.formation.gestionbiblio.model.business.Bibliotheque.Livre;
 import org.formation.gestionbiblio.model.business.Bibliotheque.Livre.Auteur;
@@ -180,5 +183,29 @@ public class DbService {
 		}
 
 		return users;
+	}
+
+	/**
+	 * Persistance d'un user
+	 * @param tf_id
+	 * @param tf_password
+	 * @param tf_email
+	 */
+	public void registerUser(String tf_id, String tf_password, String tf_email) {
+		this.session = this.sessionFactory.openSession();
+		User newUser = new User(tf_id, tf_password, tf_email);
+
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			session.save(newUser);
+			tx.commit(); // Flush happens automatically
+		} catch (RuntimeException e) {
+			tx.rollback();
+			throw e; // or display error message
+		} finally {
+			session.close();
+			BiblioController.getInstance().refreshUsers();
+		}
 	}
 }

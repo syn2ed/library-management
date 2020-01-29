@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
+import javax.swing.JTextField;
+
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.formation.gestionbiblio.model.business.Bibliotheque;
 import org.formation.gestionbiblio.model.business.User;
@@ -128,6 +130,14 @@ public class BiblioController {
 
 	public List<User> getDbUsers() {
 		return this.dbService.getDbUsers();
+	}
+
+	public void registerUser(String tf_id, String tf_password, String tf_email) {
+		this.dbService.registerUser(tf_id, tf_password, tf_email);
+	}
+
+	public void refreshUsers() {
+		this.authentificator.refreshUsers();
 	}
 	
 	

@@ -116,7 +116,9 @@ public class RegisterWindow {
 		btnDemanderLinscription.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(tf_password_repeat.getText().equals(tf_password.getText())) {
-					JOptionPane.showMessageDialog(null, "La demande de creation de compte a ete envoyee !");
+					BiblioController.getInstance().registerUser(tf_id.getText(), tf_password.getText(), tf_email.getText());
+					
+					JOptionPane.showMessageDialog(null, "La demande de creation de compte a ete envoyée !");
 					BiblioController.getInstance().getRegisterWindow().setVisible(false);
 					
 					/*

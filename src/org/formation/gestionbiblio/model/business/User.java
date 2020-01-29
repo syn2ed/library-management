@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.swing.JTextField;
 
 @Entity
 @Table(name = "user")
@@ -33,6 +34,18 @@ public class User implements Serializable{
 	
 	@Column(name = "isValidate")
 	private boolean isValidate;
+	
+	@Column(name = "email")
+	private String email;
+	
+	public User() {
+	}
+	
+	public User(String tf_id, String tf_password, String tf_email) {
+		this.email = tf_email;
+		this.password = tf_password;
+		this.username = tf_id;
+	}
 	
 	public String getUsername() {
 		return username;
