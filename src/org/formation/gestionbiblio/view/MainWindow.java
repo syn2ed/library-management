@@ -80,6 +80,8 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import java.awt.Rectangle;
 import javax.swing.UIManager;
+import java.awt.SystemColor;
+import javax.swing.ListSelectionModel;
 
 public class MainWindow {
 
@@ -317,19 +319,21 @@ public class MainWindow {
 		frame.getContentPane().add(scrollPane);
 		
 		table = new JTable(BiblioController.getInstance().getBiblio());
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
 		
 		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
 		    @Override
 		    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 		        final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 		        c.setBackground(row % 2 == 0 ? Color.LIGHT_GRAY : Color.GRAY);
+		        if(c.isCursorSet()) {
+		        	c.setBackground(Color.BLUE);
+		        }
 		        return this;
 		    }
 		});
 		
-		
-		table.setForeground(Color.DARK_GRAY);
-		table.setBackground(new Color(230, 230, 250));
 		
 		scrollPane.setViewportView(table);
 		
