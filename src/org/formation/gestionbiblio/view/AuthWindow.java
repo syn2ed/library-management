@@ -14,6 +14,8 @@ import org.formation.gestionbiblio.model.technical.Authentificator;
 
 import javax.swing.JSplitPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -30,7 +32,7 @@ public class AuthWindow {
 
 	private JFrame frame;
 	private JTextField textField;
-	private JTextField textField_1;
+	private JPasswordField textField_1;
 
 	/**
 	 * Create the application.
@@ -54,10 +56,11 @@ public class AuthWindow {
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
 		
-		textField_1 = new JTextField();
+		textField_1 = new JPasswordField();
 		textField_1.setBounds(155, 118, 130, 26);
 		frame.getContentPane().add(textField_1);
 		textField_1.setColumns(10);
+		textField_1.setEchoChar('*');
 		
 		JLabel lblUsername = new JLabel("Username");
 		lblUsername.setBounds(75, 85, 62, 16);
