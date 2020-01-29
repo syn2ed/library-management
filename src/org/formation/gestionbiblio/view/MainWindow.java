@@ -539,7 +539,7 @@ public class MainWindow {
 		
 		JLabel label_1_1 = new JLabel("MES LIVRES");
 		label_1_1.setFont(new Font("Helvetica", Font.BOLD, 26));
-		label_1_1.setBounds(651, 34, 156, 36);
+		label_1_1.setBounds(651, 21, 262, 36);
 		frame.getContentPane().add(label_1_1);
 		
 		JPanel panel_5 = new JPanel();
