@@ -128,4 +128,24 @@ public class DbService {
 	    
 		return livresToAddInDb;
 	}
+
+	public void updateDbBiblio(List<Livre> livres) {
+		this.session = this.sessionFactory.openSession();
+
+	    Transaction tx = null;
+	    try {
+	        tx = session.beginTransaction();
+	        for (Livre livre : livres) {
+		    	session.saveOrUpdate(livre);
+			}
+	        tx.commit(); // Flush happens automatically
+	    }
+	    catch (RuntimeException e) {
+	        tx.rollback();
+	        throw e; // or display error message
+	    }
+	    finally {
+	        session.close();
+	    }
+	}
 }

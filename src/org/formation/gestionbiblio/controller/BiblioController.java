@@ -119,6 +119,10 @@ public class BiblioController {
 	public DbService getDbService() {
 		return dbService;
 	}
+
+	public void updateDbBiblio() {
+		this.dbService.updateDbBiblio(this.biblio.getLivre());
+	}
 	
 	
 }

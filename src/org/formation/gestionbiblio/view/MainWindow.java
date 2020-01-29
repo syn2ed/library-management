@@ -77,7 +77,6 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import java.awt.Rectangle;
-import net.miginfocom.swing.MigLayout;
 import javax.swing.UIManager;
 
 public class MainWindow {
@@ -146,6 +145,8 @@ public class MainWindow {
 	JPanel panel_personne;
 	private boolean isXml;
 	JLabel lblDatabaseMode;
+	
+	JButton btnNewButton;
 	
 	public File getFile() {
 		return file;
@@ -321,12 +322,12 @@ public class MainWindow {
 		
 		scrollPane.setViewportView(table);
 		
-		if(role > 0) {
+		//if(role > 0) {
 			this.formulairePanel = new JPanel();
 			formulairePanel.setBackground(Color.LIGHT_GRAY);
 			formulairePanel.setBounds(0, 277, 804, 210);
 			frame.getContentPane().add(formulairePanel);
-		}
+		//}
 			
 		textField_1 = new JTextField();
 		textField_1.setColumns(10);
@@ -503,8 +504,6 @@ public class MainWindow {
 		frame.getContentPane().add(txtT);
 		txtT.setColumns(10);
 		
-		
-		
 		if(role > 0) {
 			this.panel = new JPanel();
 			panel.setBackground(Color.LIGHT_GRAY);
@@ -519,8 +518,6 @@ public class MainWindow {
 			this.btn_suppr = new JButton("-");
 			btn_suppr.setBounds(12, 111, 71, 40);
 			panel.add(btn_suppr);
-			
-			
 		}
 		
 		JLabel label_1_1 = new JLabel("MES LIVRES");
@@ -537,6 +534,17 @@ public class MainWindow {
 		this.lblDatabaseMode = new JLabel("Database mode");
 		panel_5.add(lblDatabaseMode);
 		lblDatabaseMode.setForeground(new Color(220, 20, 60));
+		
+		this.btnNewButton = new JButton("Mise à jour DB");
+		btnNewButton.setBackground(UIManager.getColor("Button.select"));
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				BiblioController.getInstance().updateDbBiblio();
+				JOptionPane.showMessageDialog(null, "La base de données est à jour.");
+			}
+		});
+		btnNewButton.setBounds(667, 499, 125, 25);
+		frame.getContentPane().add(btnNewButton);
 		/*
 		 * Mise en place de tous les EventListeners
 		 */
@@ -609,7 +617,10 @@ public class MainWindow {
     
     private void switchMode(boolean b) {
 		this.isXml = b;
-		this.lblDatabaseMode.setText("XML mode");
+		if(this.isXml == true) {
+			this.lblDatabaseMode.setText("XML mode");
+			this.btnNewButton.setVisible(false);
+		}
 	}
 
 	/*
@@ -812,8 +823,6 @@ public class MainWindow {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-            	
-                
             	logBookDeletions(table.getValueAt(table.getSelectedRow(), 0).toString(),
             			table.getValueAt(table.getSelectedRow(), 2).toString()); // logs
             	BiblioController.getInstance().getBiblio().removeRow(table.getSelectedRow());
@@ -832,23 +841,26 @@ public class MainWindow {
                 	return;
             	}
             	
-                // add row to the model
-            	Auteur newAuteur = new Auteur();
-            	newAuteur.setNom(tf_auteur.getText());
-            	
-            	Livre newLivre = new Livre();
-            	newLivre.setTitre(tf_titre.getText());
-            	newLivre.setAuteur(newAuteur);
-            	newLivre.setPresentation(tf_presentation.getText());
-            	newLivre.setParution(Integer.parseInt(tf_parution.getText()));
-            	newLivre.setColonne(Short.parseShort(tf_colonne.getText()));
-            	newLivre.setRangee(Short.parseShort(tf_rangee.getText()));
-            	newLivre.setImgUrl(tf_imgUrl.getText());
-            	newLivre.setPersonnePret(tf_personne.getText());
-            	newLivre.setType(cb_type.getSelectedItem().toString());
-            	
-            	BiblioController.getInstance().getBiblio().getLivre().add(newLivre);
-            	BiblioController.getInstance().getBiblio().fireTableDataChanged();
+            	if(isFormValid()) {
+            		// add row to the model
+                	Auteur newAuteur = new Auteur();
+                	newAuteur.setNom(tf_auteur.getText());
+                	newAuteur.setPrenom(tf_auteur_prenom.getText());
+                	
+                	Livre newLivre = new Livre();
+                	newLivre.setTitre(tf_titre.getText());
+                	newLivre.setAuteur(newAuteur);
+                	newLivre.setPresentation(tf_presentation.getText());
+                	newLivre.setParution(Integer.parseInt(tf_parution.getText()));
+                	newLivre.setColonne(Short.parseShort(tf_colonne.getText()));
+                	newLivre.setRangee(Short.parseShort(tf_rangee.getText()));
+                	newLivre.setImgUrl(tf_imgUrl.getText());
+                	newLivre.setPersonnePret(tf_personne.getText());
+                	newLivre.setType(cb_type.getSelectedItem().toString());
+                	
+                	BiblioController.getInstance().getBiblio().getLivre().add(newLivre);
+                	BiblioController.getInstance().getBiblio().fireTableDataChanged();
+            	}
             }
         });
     }
