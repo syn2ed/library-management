@@ -69,6 +69,14 @@ import java.net.URL;
 import java.util.Calendar;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.Dialog.ModalExclusionType;
+import java.awt.Frame;
+import java.awt.Cursor;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.LineBorder;
+import java.awt.Rectangle;
 
 public class MainWindow {
 
@@ -103,8 +111,7 @@ public class MainWindow {
 	private JLabel Presentation;
 	private JButton btnValider;
 	private JPanel panel_4;
-	private JLabel label_1;
-	private JPanel panel_personne;
+	private JLabel lblImgUrl;
 	private JLabel label_4;
 	private JLabel lblNewLabel;
 	private JPanel panel;
@@ -129,10 +136,12 @@ public class MainWindow {
 	private JPanel panel_img;
 	private JPanel panel_3;
 	private JLabel lblNewLabel_1;
-	private JTextField textField;
+	private JTextField txtT;
 	
 	private TableRowSorter<TableModel> sorter;
 	private JMenuItem admin_registrations_BarUnderbtn;
+	private JTextField tf_auteur_prenom;
+	JPanel panel_personne;
 	
 	public File getFile() {
 		return file;
@@ -184,8 +193,10 @@ public class MainWindow {
 	 */
 	public void initialize(int role) {
 		this.frame = new JFrame();
-		
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		frame.setBounds(new Rectangle(0, 0, 2000, 2000));
+		frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		frame.setForeground(Color.WHITE);
+		frame.getContentPane().setForeground(Color.WHITE);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		this.menuBar = new JMenuBar();
@@ -285,7 +296,7 @@ public class MainWindow {
 		panel_3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		this.scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 60, 1440, 300);
+		scrollPane.setBounds(0, 122, 1440, 143);
 		frame.getContentPane().add(scrollPane);
 		
 		table = new JTable(BiblioController.getInstance().getBiblio());
@@ -308,7 +319,7 @@ public class MainWindow {
 		if(role > 0) {
 			this.formulairePanel = new JPanel();
 			formulairePanel.setBackground(Color.LIGHT_GRAY);
-			formulairePanel.setBounds(10, 380, 804, 174);
+			formulairePanel.setBounds(0, 277, 804, 210);
 			frame.getContentPane().add(formulairePanel);
 		}
 			
@@ -318,126 +329,152 @@ public class MainWindow {
 		this.label_6 = new JLabel("");
 		
 		this.panel_7 = new JPanel();
-		panel_7.setBounds(5, 5, 174, 36);
+		panel_7.setBounds(5, 5, 418, 36);
 		panel_7.setBackground(Color.LIGHT_GRAY);
-		panel_7.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panel_7.setLayout(null);
 		
 		this.label_3 = new JLabel("Titre");
+		label_3.setBounds(24, 7, 29, 15);
 		panel_7.add(label_3);
 		
 		tf_titre = new JTextField();
+		tf_titre.setBounds(71, 7, 336, 19);
 		tf_titre.setColumns(10);
 		panel_7.add(tf_titre);
 		
 		this.panel_9 = new JPanel();
-		panel_9.setBounds(5, 46, 197, 36);
+		panel_9.setBounds(435, 5, 197, 36);
 		panel_9.setBackground(Color.LIGHT_GRAY);
-		panel_9.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panel_9.setLayout(null);
 		
 		this.label_8 = new JLabel("Parution");
+		label_8.setBounds(12, 7, 52, 15);
 		panel_9.add(label_8);
 		
 		tf_parution = new JTextField();
+		tf_parution.setBounds(71, 7, 114, 19);
 		tf_parution.setColumns(10);
 		panel_9.add(tf_parution);
 		
-		this.panel_10 = new JPanel();
-		panel_10.setBounds(5, 87, 197, 36);
-		panel_10.setBackground(Color.LIGHT_GRAY);
-		panel_10.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
-		this.label_9 = new JLabel("Colonne");
-		panel_10.add(label_9);
-		
-		tf_colonne = new JTextField();
-		tf_colonne.setColumns(10);
-		panel_10.add(tf_colonne);
-		
 		this.panel_11 = new JPanel();
-		panel_11.setBounds(207, 87, 190, 36);
+		panel_11.setBounds(435, 46, 197, 36);
 		panel_11.setBackground(Color.LIGHT_GRAY);
-		panel_11.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panel_11.setLayout(null);
 		
 		this.label_10 = new JLabel("Rangee");
+		label_10.setBounds(12, 7, 45, 15);
 		panel_11.add(label_10);
 		
 		tf_rangee = new JTextField();
+		tf_rangee.setBounds(71, 7, 114, 19);
 		tf_rangee.setColumns(10);
 		panel_11.add(tf_rangee);
 		
-		this.panel_1 = new JPanel();
-		panel_1.setBounds(5, 128, 197, 46);
-		panel_1.setBackground(Color.LIGHT_GRAY);
-		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
-		this.label_2 = new JLabel("Type");
-		panel_1.add(label_2);
-		
 		this.types = new Object[]{"Acquis", "Emprunte", "Prete"};
-		this.cb_type = new JComboBox(types);
-		panel_1.add(cb_type);
 		
 		this.panel_2 = new JPanel();
-		panel_2.setBounds(184, 5, 187, 36);
-		panel_2.setBackground(Color.LIGHT_GRAY);
-		panel_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panel_2.setBorder(new LineBorder(Color.PINK, 1, true));
+		panel_2.setBounds(5, 46, 418, 36);
+		panel_2.setBackground(Color.GRAY);
+		panel_2.setLayout(null);
 		
 		this.label = new JLabel("Auteur");
+		label.setBounds(12, 9, 42, 15);
 		panel_2.add(label);
 		
 		tf_auteur = new JTextField();
+		tf_auteur.setBounds(72, 7, 148, 19);
 		tf_auteur.setColumns(10);
 		panel_2.add(tf_auteur);
 		formulairePanel.setLayout(null);
 		formulairePanel.add(panel_7);
 		formulairePanel.add(panel_2);
+		
+		tf_auteur_prenom = new JTextField();
+		tf_auteur_prenom.setBounds(232, 7, 175, 19);
+		panel_2.add(tf_auteur_prenom);
+		tf_auteur_prenom.setColumns(10);
 		formulairePanel.add(panel_9);
 		
 		this.panel_8 = new JPanel();
-		panel_8.setBounds(207, 46, 223, 36);
+		panel_8.setBounds(5, 87, 418, 36);
 		panel_8.setBackground(Color.LIGHT_GRAY);
-		panel_8.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panel_8.setLayout(null);
 		
-		this.Presentation = new JLabel("Presentation");
+		this.Presentation = new JLabel("Résumé");
+		Presentation.setBounds(4, 9, 49, 15);
 		panel_8.add(Presentation);
 		
 		tf_presentation = new JTextField();
+		tf_presentation.setBounds(71, 7, 336, 19);
 		tf_presentation.setColumns(10);
 		panel_8.add(tf_presentation);
 		formulairePanel.add(panel_8);
-		formulairePanel.add(panel_10);
 		formulairePanel.add(panel_11);
-		formulairePanel.add(panel_1);
 		
 		this.btnValider = new JButton("Valider");
-		btnValider.setBounds(711, 145, 87, 29);
+		btnValider.setBounds(705, 172, 87, 29);
 		formulairePanel.add(btnValider);
 		
 		this.panel_4 = new JPanel();
 		panel_4.setBackground(Color.LIGHT_GRAY);
-		panel_4.setBounds(474, 5, 215, 36);
+		panel_4.setBounds(5, 126, 418, 36);
 		formulairePanel.add(panel_4);
-		panel_4.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panel_4.setLayout(null);
 		
-		this.label_1 = new JLabel("Image URL");
-		panel_4.add(label_1);
+		this.lblImgUrl = new JLabel("Img URL");
+		lblImgUrl.setBounds(0, 9, 52, 15);
+		panel_4.add(lblImgUrl);
 		
 		tf_imgUrl = new JTextField();
+		tf_imgUrl.setBounds(70, 7, 336, 19);
 		tf_imgUrl.setColumns(10);
 		panel_4.add(tf_imgUrl);
 		
+		this.panel_10 = new JPanel();
+		panel_10.setBounds(435, 87, 197, 36);
+		formulairePanel.add(panel_10);
+		panel_10.setBackground(Color.LIGHT_GRAY);
+		panel_10.setLayout(null);
+		
+		this.label_9 = new JLabel("Colonne");
+		label_9.setBounds(12, 7, 52, 15);
+		panel_10.add(label_9);
+		
+		tf_colonne = new JTextField();
+		tf_colonne.setBounds(71, 7, 114, 19);
+		tf_colonne.setColumns(10);
+		panel_10.add(tf_colonne);
+		
+		this.panel_1 = new JPanel();
+		panel_1.setBounds(5, 165, 418, 36);
+		formulairePanel.add(panel_1);
+		panel_1.setBorder(new LineBorder(Color.PINK, 1, true));
+		panel_1.setBackground(Color.GRAY);
+		panel_1.setLayout(null);
+		
+		this.label_2 = new JLabel("Type");
+		label_2.setBounds(22, 10, 30, 15);
+		panel_1.add(label_2);
+		this.cb_type = new JComboBox(types);
+		cb_type.setBounds(71, 5, 115, 24);
+		panel_1.add(cb_type);
+		
 		this.panel_personne = new JPanel();
-		panel_personne.setBounds(207, 132, 202, 36);
-		formulairePanel.add(panel_personne);
-		panel_personne.setBackground(Color.LIGHT_GRAY);
-		panel_personne.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panel_personne.setBorder(new LineBorder(Color.PINK, 1, true));
+		panel_personne.setBackground(Color.GRAY);
+		panel_personne.setBounds(221, 0, 197, 36);
+		panel_1.add(panel_personne);
+		panel_personne.setLayout(null);
 		
 		this.label_4 = new JLabel("Personne");
+		label_4.setBounds(10, 7, 57, 15);
 		panel_personne.add(label_4);
 		
 		tf_personne = new JTextField();
-		tf_personne.setColumns(10);
+		tf_personne.setBounds(72, 7, 114, 19);
 		panel_personne.add(tf_personne);
+		tf_personne.setColumns(10);
 		
 		panel_img = new JPanel();
 		panel_img.setBounds(1200, 400, 200, 280);
@@ -451,31 +488,37 @@ public class MainWindow {
 		
 		lblNewLabel_1 = new JLabel("Recherche");
 		lblNewLabel_1.setFont(new Font("Lucida Grande", Font.BOLD, 13));
-		lblNewLabel_1.setBounds(6, 32, 71, 16);
+		lblNewLabel_1.setBounds(12, 94, 71, 16);
 		frame.getContentPane().add(lblNewLabel_1);
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.LEFT);
 		
-		textField = new JTextField();
-		textField.setBounds(82, 27, 130, 26);
-		frame.getContentPane().add(textField);
-		textField.setColumns(10);
+		txtT = new JTextField();
+		txtT.setBounds(94, 90, 130, 26);
+		frame.getContentPane().add(txtT);
+		txtT.setColumns(10);
 		
 		
 		
 		if(role > 0) {
 			this.panel = new JPanel();
 			panel.setBackground(Color.LIGHT_GRAY);
-			panel.setBounds(849, 380, 95, 171);
+			panel.setBounds(816, 277, 95, 210);
 			frame.getContentPane().add(panel);
+			panel.setLayout(null);
 			
 			this.btn_add = new JButton("+");
+			btn_add.setBounds(12, 43, 71, 40);
 			panel.add(btn_add);
 			
 			this.btn_suppr = new JButton("-");
+			btn_suppr.setBounds(12, 111, 71, 40);
 			panel.add(btn_suppr);
+			
+			JLabel label_1_1 = new JLabel("MES LIVRES");
+			label_1_1.setFont(new Font("Helvetica", Font.BOLD, 26));
+			label_1_1.setBounds(651, 34, 156, 36);
+			frame.getContentPane().add(label_1_1);
 		}
-		
-		
 		
 		/*
 		 * Mise en place de tous les EventListeners
@@ -496,18 +539,18 @@ public class MainWindow {
 	}
 	
 	private void setSearchFieldEventListener() {
-		textField.getDocument().addDocumentListener(new DocumentListener() {
+		txtT.getDocument().addDocumentListener(new DocumentListener() {
 	         @Override
 	         public void insertUpdate(DocumentEvent e) {
-	            search(textField.getText());
+	            search(txtT.getText());
 	         }
 	         @Override
 	         public void removeUpdate(DocumentEvent e) {
-	            search(textField.getText());
+	            search(txtT.getText());
 	         }
 	         @Override
 	         public void changedUpdate(DocumentEvent e) {
-	            search(textField.getText());
+	            search(txtT.getText());
 	         }
 	         public void search(String str) {
 	            if (str.length() == 0) {
@@ -818,7 +861,7 @@ public class MainWindow {
      */
     private void setSynchronizeDbButton() {
     	JButton btnSynchronizeDbFrom = new JButton("Synchronize DB from XML");
-		btnSynchronizeDbFrom.setBounds(499, 27, 189, 29);
+		btnSynchronizeDbFrom.setBounds(300, 90, 189, 29);
 		frame.getContentPane().add(btnSynchronizeDbFrom);
 		
 		btnSynchronizeDbFrom.addActionListener(new ActionListener() {

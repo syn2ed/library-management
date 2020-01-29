@@ -21,24 +21,6 @@ public class registerWindow {
 	private JFrame frame;
 
 	/**
-	 * Launch the application.
-	 */
-	/*
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					registerWindow window = new registerWindow();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	*/
-
-	/**
 	 * Create the application.
 	 */
 	public registerWindow() {
@@ -90,7 +72,7 @@ public class registerWindow {
 			        session.getTransaction().commit();
 					*/
 				} else {
-					JOptionPane.showMessageDialog(null, "Deux mots de passe différents ont été saisis");
+					JOptionPane.showMessageDialog(null, "Deux mots de passe diffï¿½rents ont ï¿½tï¿½ saisis");
 				}
 			}
 		});
