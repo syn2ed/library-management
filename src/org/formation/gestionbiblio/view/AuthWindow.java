@@ -27,6 +27,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
 import java.awt.Color;
 import java.util.List;
+import java.awt.Font;
 
 public class AuthWindow {
 
@@ -92,9 +93,10 @@ public class AuthWindow {
 		btnConnexion.setBounds(155, 156, 117, 29);
 		frame.getContentPane().add(btnConnexion);
 		
-		JLabel lblNewLabel = new JLabel("BIBLIO APP");
+		JLabel lblNewLabel = new JLabel("Gestion Biblio");
+		lblNewLabel.setFont(new Font("Geeza Pro", Font.PLAIN, 13));
 		lblNewLabel.setForeground(Color.BLUE);
-		lblNewLabel.setBounds(164, 17, 86, 16);
+		lblNewLabel.setBounds(164, 17, 121, 16);
 		frame.getContentPane().add(lblNewLabel);
 		
 		
