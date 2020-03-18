@@ -98,7 +98,6 @@ public class AuthWindow {
 		frame.getContentPane().add(lblNewLabel);
 		
 		
-		
 		JButton btnInscription = new JButton("Inscription");
 		btnInscription.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
