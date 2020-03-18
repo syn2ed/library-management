@@ -106,7 +106,6 @@ public class AuthWindow {
 		});
 		btnInscription.setBounds(309, 227, 117, 26);
 		frame.getContentPane().add(btnInscription);
-		
 	}
 
 	public JFrame getFrame() {
