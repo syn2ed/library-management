@@ -19,7 +19,7 @@ import org.formation.gestionbiblio.view.MainWindow;
 import org.formation.gestionbiblio.view.RegisterWindow;
 
 /*
- * Manager/Controller en singleton
+ * Singleton BiblioController
  */
 public class BiblioController {
 
