@@ -186,7 +186,7 @@ public class DbService {
 	}
 
 	/**
-	 * Persistance d'un user
+	 * User persistence
 	 * @param tf_id
 	 * @param tf_password
 	 * @param tf_email
