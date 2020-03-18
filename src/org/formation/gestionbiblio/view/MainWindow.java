@@ -205,6 +205,7 @@ public class MainWindow {
 	 * Initialize the contents of the frame.
 	 */
 	public void initialize(int role) {
+		
 		this.aboutWindow = new AboutWindow();
 		this.isXml = false;
 		this.frame = new JFrame();
