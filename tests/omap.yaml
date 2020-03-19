@@ -1,0 +1,20 @@
+- !!net.sourceforge.marathon.objectmap.OMapContainer
+    containerGeneralProperties: []
+    containerRecognitionProperties:
+    - {method: equals, name: component.class.name, value: javax.swing.JFrame}
+    - {method: equals, name: title, value: Username}
+    containerTitles: [Username]
+    fileName: Username_1027813070628954964.yaml
+- !!net.sourceforge.marathon.objectmap.OMapContainer
+    containerGeneralProperties: []
+    containerRecognitionProperties:
+    - {method: equals, name: oMapClassName, value: javax.swing.JOptionPane#Dialog_1_-1}
+    containerTitles: [Message]
+    fileName: Message_5326868955870407467.yaml
+- !!net.sourceforge.marathon.objectmap.OMapContainer
+    containerGeneralProperties: []
+    containerRecognitionProperties:
+    - {method: equals, name: component.class.name, value: javax.swing.JFrame}
+    - {method: equals, name: title, value: Password}
+    containerTitles: [Password]
+    fileName: Password_8555760022961815492.yaml

@@ -1,0 +1,44 @@
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: actionCommand, value: Connexion}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: accessibleContext.accessibleName, value: Connexion}
+    - {name: tagName, value: button}
+    - {name: indexOfType, value: '0'}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: internalFrameIndex2, value: '-1'}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: position, value: '[x=264,y=294]'}
+    - {name: enabled, value: 'true'}
+    - {name: cText, value: Connexion}
+    - {name: actionCommand, value: Connexion}
+    - {name: type, value: JButton}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: buttonText, value: Connexion}
+    - {name: accessibleName, value: Connexion}
+    - {name: size, value: '[width=117,height=29]'}
+    name: Connexion
+    used: true
+- !!net.sourceforge.marathon.objectmap.OMapComponent
+    componentRecognitionProperties:
+    - {method: equals, name: actionCommand, value: Inscription}
+    - {method: equals, name: type, value: JButton}
+    generalProperties:
+    - {name: accessibleContext.accessibleName, value: Inscription}
+    - {name: tagName, value: button}
+    - {name: indexOfType, value: '1'}
+    - {name: component.class.name, value: javax.swing.JButton}
+    - {name: internalFrameIndex2, value: '-1'}
+    - {name: instanceOf, value: javax.swing.JButton}
+    - {name: position, value: '[x=418,y=365]'}
+    - {name: enabled, value: 'true'}
+    - {name: cText, value: Inscription}
+    - {name: actionCommand, value: Inscription}
+    - {name: type, value: JButton}
+    - {name: component.class.simpleName, value: JButton}
+    - {name: buttonText, value: Inscription}
+    - {name: accessibleName, value: Inscription}
+    - {name: size, value: '[width=117,height=26]'}
+    name: Inscription
+    used: true
